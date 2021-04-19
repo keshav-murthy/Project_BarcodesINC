@@ -41,13 +41,13 @@ public class SC_07_CreateAssetTest extends TestBase {
 		myAsset.clickOnAddAsset();
 		AddAssetPage addAsset = new AddAssetPage(driver);
 		addAsset.addingAssetProcedure(randomAsset);
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-//		assetdetails.fetchAssetDetails(randomAsset);
+		myAsset.enterSearchField(randomAsset);
+		myAsset.verifyAsset(randomAsset);
+		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+		assetdetails.fetchAssetDetails(randomAsset);
 	}
 
-//	@Test(priority = 2)
+	@Test(priority = 2)
 	public void TC_02_newSerialNumber() {
 
 		LoginPage loginpage = new LoginPage(driver);
@@ -69,7 +69,7 @@ public class SC_07_CreateAssetTest extends TestBase {
 		assetdetails.fetchAssetDetails(random);
 	}
 
-//	@Test(priority = 3)
+	@Test(priority = 3)
 	public void TC_03_createdAssetValidation() {
 
 		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));

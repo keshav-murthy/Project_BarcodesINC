@@ -50,7 +50,7 @@ public class SC_05_CreateTicketTest extends TestBase {
 		ticketID = ticketdetails.getTicketDetails();
 	}
 
-//	@Test(priority = 2)
+	@Test(priority = 2)
 	public void TC_02_netsuiteValidation() {
 
 		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));

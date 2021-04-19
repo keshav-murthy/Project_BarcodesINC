@@ -54,7 +54,7 @@ public class SC_04_TicketDetailTest extends TestBase {
 		validation.statusValidation();
 	}
 
-//	@Test(priority = 2)
+	@Test(priority = 2)
 	public void TC_02_commentsValidationInNetSuite() {
 
 		LoginPage loginpage = new LoginPage(driver);
@@ -86,7 +86,7 @@ public class SC_04_TicketDetailTest extends TestBase {
 				InitializePropertyFile.property.getProperty("SC_04_Barcodes_Comments"));
 	}
 
-//	@Test(priority = 3)
+	@Test(priority = 3)
 	public void TC_03_commentsValidationInBarcodes() {
 
 		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));

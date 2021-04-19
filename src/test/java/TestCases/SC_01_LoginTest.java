@@ -31,7 +31,7 @@ public class SC_01_LoginTest extends TestBase {
 		homepage.verifyServicePortal();
 	}
 
-//	@Test(invocationCount = 1)
+//	@Test()
 	public void TC_02_Random() {
 
 		LoginPage loginpage = new LoginPage(driver);
