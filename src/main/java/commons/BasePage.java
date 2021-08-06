@@ -2,6 +2,7 @@ package commons;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +10,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
@@ -17,8 +19,9 @@ public abstract class BasePage {
 	protected WebDriver driver;
 
 	protected static ExplicitWait wait;
-
+	protected static Actions action;
 	protected static JavaScriptHelper js;
+	protected static Random random = new Random();
 
 	protected BasePage(WebDriver driver) {
 		this.driver = driver;
@@ -162,26 +165,55 @@ public abstract class BasePage {
 		for (String i : windowID)
 			driver.switchTo().window(i);
 	}
-	
+
 	public void defaultWindow() {
 
 		Set<String> windowID = driver.getWindowHandles();
-		List<String> window=new ArrayList<String>(windowID);
-		for (int i=0;i< window.size();i++)
+		List<String> window = new ArrayList<String>(windowID);
+		for (int i = 0; i < window.size(); i++)
 			driver.switchTo().window(window.get(0));
 	}
-	
+
 	public void closeCurrentWindow() {
 
 		Set<String> windowID = driver.getWindowHandles();
-		List<String> window=new ArrayList<String>(windowID);
-		for (int i=0;i< window.size();i++)
-			driver.switchTo().window(window.get(1)).close();;
+		List<String> window = new ArrayList<String>(windowID);
+		for (int i = 0; i < window.size(); i++)
+			driver.switchTo().window(window.get(1)).close();
+		;
 	}
-	
+
 	public void clickOnOKAlert() {
-		
-		Alert alert=driver.switchTo().alert();
+
+		Alert alert = driver.switchTo().alert();
 		alert.accept();
+	}
+
+	public String genRandomString() {
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < 15) { // length of the random string.
+			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			salt.append(SALTCHARS.charAt(index));
+		}
+		String saltStr = salt.toString();
+		return saltStr;
+	}
+
+	public void moveToElement(WebElement element, WebElement element2) {
+
+		action = new Actions(driver);
+		action.moveToElement(element).perform();
+	}
+
+	public WebElement selectRandomElement(List<WebElement> element) {
+
+		int randomNumberIndex = random.nextInt(element.size());
+		wait.forElementToBeVisible(element.get(randomNumberIndex));
+		WebElement randomElement = element.get(randomNumberIndex);
+		System.out.println("The model selected is :------" + randomElement.getText());
+
+		return randomElement;
 	}
 }

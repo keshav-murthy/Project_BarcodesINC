@@ -2,10 +2,8 @@ package commons;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,7 +30,7 @@ public class TestBase {
 		InitializePropertyFile.loadPropertyFile();
 	}
 
-//	@AfterMethod
+	@AfterMethod
 	public void tearDown() {
 		if (driver != null) {
 			// driver.close();
@@ -43,7 +41,8 @@ public class TestBase {
 	private ChromeDriver createDriver() {
 
 		WebDriverManager.chromedriver().setup();
-		return new ChromeDriver();
+		ChromeOptions option = (ChromeOptions) getOptions("chrome");
+		return new ChromeDriver(option);
 
 //		WebDriverManager.firefoxdriver().setup();
 //		return new FirefoxDriver();
@@ -82,11 +81,10 @@ public class TestBase {
 		driver.manage().timeouts().setScriptTimeout(Timeouts.PAGE, TimeUnit.SECONDS);
 	}
 
-	public void maintainSameSession() {
-		Set<Cookie> allCookies = driver.manage().getCookies();
-		for (Cookie cookie : allCookies) {
-			driver.manage().addCookie(cookie);
-		}
-	}
-
+//	public void maintainSameSession() {
+//		Set<Cookie> allCookies = driver.manage().getCookies();
+//		for (Cookie cookie : allCookies) {
+//			driver.manage().addCookie(cookie);
+//		}
+//	}
 }

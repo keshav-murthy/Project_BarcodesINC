@@ -1,10 +1,12 @@
 package Pages;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,7 +16,9 @@ import commons.BasePage;
 
 public class MyContractsPage extends BasePage {
 
-	@FindBy(xpath = "//h2[@class='legend']")
+	protected static Random r = new Random();
+
+	@FindBy(xpath = "//h1//span")
 	WebElement pageHeader;
 
 	@FindBy(xpath = "//input[@type='search']")
@@ -25,6 +29,9 @@ public class MyContractsPage extends BasePage {
 
 	@FindBy(xpath = "//input[@value='Add Contract']")
 	WebElement addContract;
+
+	@FindBy(xpath = "//tbody//td[1]//a")
+	List<WebElement> contracts;
 
 	@FindBy(xpath = "//tbody//tr//td[@class='sorting_1']")
 	List<WebElement> textSorting;
@@ -97,6 +104,9 @@ public class MyContractsPage extends BasePage {
 
 	@FindBy(xpath = "//ul[@itemtype='https://schema.org/BreadcrumbList']")
 	WebElement header;
+
+	@FindBy(xpath = "//select[@name='ticket-table_length']")
+	WebElement tableLengthDropDown;
 
 	private static final Logger lOGGER = LogManager.getLogger(MyContractsPage.class.getName());
 
@@ -190,5 +200,44 @@ public class MyContractsPage extends BasePage {
 		wait.forElementToBeVisible(addContract);
 		click(addContract);
 		lOGGER.info("Clicking on Add Contract button");
+	}
+
+	public void validSearchVerification() {
+
+		String randomContractID;
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+
+		int randomNumberIndex = r.nextInt(contracts.size());
+		wait.forElementToBeVisible(contracts.get(randomNumberIndex));
+		try {
+			randomContractID = contracts.get(randomNumberIndex).getText();
+		} catch (StaleElementReferenceException e) {
+			randomContractID = contracts.get(randomNumberIndex).getText();
+		}
+		System.out.println("Valid search element to be entered is  :------" + randomContractID);
+
+		wait.forElementToBeVisible(search);
+		sendKeys(search, randomContractID);
+		lOGGER.info("Entering the required data in search field");
+		wait.forElementToBeVisible(
+				driver.findElement(By.xpath("//td//a[contains(text()," + "'" + randomContractID + "'" + ")]")));
+		String actualResult = driver
+				.findElement(By.xpath("//td//a[contains(text()," + "'" + randomContractID + "'" + ")]")).getText();
+		String expectedResult = randomContractID;
+		Assert.assertEquals(actualResult, expectedResult);
+		lOGGER.info("Verifying search field with valid Serial Number");
+	}
+
+	public void invalidSearchVerification() {
+
+		String n = Integer.toString(r.nextInt(10000));
+		wait.forElementToBeVisible(search);
+		System.out.println("Invalid search element to be entered is :------" + n);
+		sendKeys(search, n);
+		lOGGER.info("Entering the required data in search field");
+		wait.forElementToBeVisible(emptyTable);
+		System.out.println(emptyTable.getText());
+		lOGGER.info("Verifying search field with Invalid Serial Number");
 	}
 }

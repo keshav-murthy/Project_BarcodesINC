@@ -47,7 +47,7 @@ public class SC_07_CreateAssetTest extends TestBase {
 		assetdetails.fetchAssetDetails(randomAsset);
 	}
 
-	@Test(priority = 2)
+//	@Test(priority = 2)
 	public void TC_02_newSerialNumber() {
 
 		LoginPage loginpage = new LoginPage(driver);
@@ -69,7 +69,7 @@ public class SC_07_CreateAssetTest extends TestBase {
 		assetdetails.fetchAssetDetails(random);
 	}
 
-	@Test(priority = 3)
+//	@Test(priority = 3,,dependsOnMethods="TC_02_newSerialNumber")
 	public void TC_03_createdAssetValidation() {
 
 		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));

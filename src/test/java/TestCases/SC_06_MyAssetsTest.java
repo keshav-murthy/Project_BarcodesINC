@@ -29,8 +29,8 @@ public class SC_06_MyAssetsTest extends TestBase {
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 		assetsandservices.clickOnMyAssets();
 		MyAssetsPage myAsset = new MyAssetsPage(driver);
-		myAsset.verifyValidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_06_Valid_Search"));
-		myAsset.verifyInvalidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_06_Invalid_Search"));
+		myAsset.validSearchVerification();
+		myAsset.invalidSearchVerification();
 	}
 
 	@Test(priority = 2)

@@ -2,11 +2,11 @@ package Pages;
 
 import java.util.List;
 
-import javax.tools.DocumentationTool.Location;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,10 +18,16 @@ public class AssetDetailsPage extends BasePage {
 
 	protected static String firstName;
 
+	@FindBy(xpath = "//a[contains(text(),'Contracts')]")
+	WebElement contracts;
+
+	@FindBy(xpath = "//a[contains(text(),'Tickets')]")
+	WebElement tickets;
+
 	@FindBy(xpath = "//div[@class='item-details-left-holder']//img")
 	WebElement realImage;
 
-	@FindBy(xpath = "//div//label[contains(text(),'Location : ')]//following-sibling::span")
+	@FindBy(xpath = "//label[text()='Last Address Shipped To']//following-sibling::span")
 	WebElement locationDetails;
 
 	@FindBy(xpath = "//input[@value='Add Contract']")
@@ -33,8 +39,11 @@ public class AssetDetailsPage extends BasePage {
 	@FindBy(xpath = "//div[@class='item-details-right-holder']")
 	WebElement assetDetails;
 
-	@FindBy(xpath = "//div//label[contains(text(),'Serial Number : ')]//following-sibling::span")
+	@FindBy(xpath = "//tbody//tr//td[2]")
 	WebElement serialNumber;
+
+	@FindBy(xpath = "//label[text()='Serial Number']//following-sibling::span")
+	WebElement serialNumber1;
 
 	@FindBy(xpath = "(//table[@id='ticket-table']//td[1])[1]//a")
 	WebElement firstTicket;
@@ -62,15 +71,28 @@ public class AssetDetailsPage extends BasePage {
 
 	public void clickOnCreateTicket() {
 
+		wait.forElementToBeVisible(tickets);
+		tickets.click();
+		tickets.sendKeys(Keys.ENTER);
 		wait.forElementToBeVisible(createTicket);
-		click(createTicket);
+		String url = createTicket.getAttribute("onClick");
+		System.out.println(url);
+		String actualURL = url.substring(url.indexOf("https"), url.lastIndexOf("=") + 1);
+		driver.navigate().to(actualURL);
 		lOGGER.info("click on Create Ticket button");
 	}
 
 	public void fetchAssetDetails(String random) {
+		String actual;
 		wait.forElementToBeVisible(assetDetails);
 		System.out.println(assetDetails.getText());
-		String actual = serialNumber.getText();
+		try {
+			wait.forElementToBeVisible(serialNumber1);
+			actual = serialNumber1.getText();
+		} catch (TimeoutException e) {
+			wait.forElementToBeVisible(serialNumber);
+			actual = serialNumber.getText();
+		}
 		String expected = random;
 		Assert.assertEquals(actual, expected);
 		lOGGER.info("Fetching details of asset added and also verified the serial number");
@@ -78,18 +100,26 @@ public class AssetDetailsPage extends BasePage {
 
 	public void clickOnAddContract() {
 
+		wait.forElementToBeVisible(contracts);
+		contracts.click();
+		contracts.sendKeys(Keys.ENTER);
 		wait.forElementToBeVisible(addContract);
-		click(addContract);
+		String url = addContract.getAttribute("onClick");
+		String actualURL = url.substring(url.indexOf("https"), url.lastIndexOf("t") + 1);
+		driver.navigate().to(actualURL);
 		lOGGER.info("click on Add Contract button");
 	}
 
 	public void ticketDetailsOfAsset() {
 
+		wait.forElementToBeVisible(tickets);
+		tickets.click();
+		tickets.sendKeys(Keys.ENTER);
 		String noData = "No data available in table";
-		wait.forElementToBeVisible(serialNumber);
 
 		for (int i = 0; i < ticketID.size(); i++) {
 			if (!((ticketID.get(i).getText()).equals(noData))) {
+				wait.forElementToBeVisible(serialNumber);
 				System.out.println("Ticket ID of this " + serialNumber.getText() + " Asset serial number is :- "
 						+ ticketID.get(i).getText());
 				System.out.println("Ticket title of this " + serialNumber.getText() + " Asset serial number is :- "
@@ -100,20 +130,28 @@ public class AssetDetailsPage extends BasePage {
 		}
 	}
 
-	public void clickOnFirstTicket() {
+	public boolean clickOnFirstTicket() {
 
 		wait.forPage(2000);
+		wait.forElementToBeVisible(tickets);
+		tickets.click();
+		tickets.sendKeys(Keys.ENTER);
 		try {
 			click(firstTicket);
 			lOGGER.info("Clicking on first Ticket from the list");
+			return true;
 		} catch (Exception e) {
 			System.out.println("No tickets created yet for this asset");
+			return false;
 		}
 	}
 
 	public String getFirstContractName() {
 
 		wait.forPage(2000);
+		wait.forElementToBeVisible(contracts);
+		contracts.click();
+		contracts.sendKeys(Keys.ENTER);
 		try {
 			lOGGER.info("Clicking on name of first contract from the list");
 			firstName = firstContractName.getText();
@@ -144,8 +182,15 @@ public class AssetDetailsPage extends BasePage {
 
 	public void locationValidation(String location) {
 
+		wait.forElementToBeVisible(locationDetails);
+		String locInPage = (locationDetails.getText());
+		locInPage = (locationDetails.getText()).replace(",", "");
+//		locInPage = (locationDetails.getText()).replace(",", "");
+//		System.out.println(locationDetails.getText());
 		try {
-			Assert.assertEquals(((locationDetails.getText()).contains(location)), true);
+			Assert.assertEquals(locInPage.contains(location), true,
+					"The location for the respective Asset is not displayed");
+			lOGGER.info("Location verification done");
 		} catch (NoSuchElementException e) {
 			System.out.println(serialNumber.getText());
 			System.out.println("The location for the respective Asset is not displayed");

@@ -11,7 +11,7 @@ import commons.BasePage;
 
 public class AddContractPage extends BasePage {
 
-	@FindBy(xpath = "//span//strong")
+	@FindBy(xpath = "//li[@class='item add contract']//strong")
 	WebElement pageHeader;
 
 	@FindBy(xpath = "//input[@id='support_troubleshoot']")
@@ -35,16 +35,22 @@ public class AddContractPage extends BasePage {
 	@FindBy(xpath = "//input[@type='select-one']")
 	WebElement serialNumber;
 
+	@FindBy(xpath = "//div[@class='selectize-dropdown-content']//div[1]")
+	WebElement dropDownSelect;
+
 	@FindBy(xpath = "//button[contains(text(),'Select')]")
 	WebElement select;
 
 	@FindBy(xpath = "//span[contains(text(),'+')]")
 	WebElement plus;
 
+	@FindBy(xpath = "(//select[@name='contracttype'])[1]")
+	WebElement contractType;
+
 	@FindBy(xpath = "//button[contains(text(),'Send')]")
 	WebElement send;
 
-	@FindBy(xpath = "//a[contains(text(),'go to dashboard')]")
+	@FindBy(xpath = "(//a[contains(text(),'Go to dashboard')])[2]")
 	WebElement dashboard;
 
 	private static final Logger lOGGER = LogManager.getLogger(AddContractPage.class.getName());
@@ -90,17 +96,25 @@ public class AddContractPage extends BasePage {
 		sendKeys(serialNumber, random);
 		lOGGER.info("Enter Serial Number");
 
+		wait.forElementToBeVisible(dropDownSelect);
+		click(dropDownSelect);
+		lOGGER.info("clicking on asset serial from drop down select button");
+
 		wait.forElementToBeVisible(select);
 		click(select);
 		lOGGER.info("clicking on Select button");
+
+		wait.forElementToBeVisible(contractType);
+		dropDownMethod(contractType, "index", "1");
+		lOGGER.info("clicking on contract type drop down");
 
 		wait.forElementToBeVisible(send);
 		click(send);
 		lOGGER.info("clicking on Send button");
 
-		wait.forElementToBeVisible(dashboard);
-		click(dashboard);
-		lOGGER.info("clicking on dashboard button");
+//		wait.forElementToBeVisible(dashboard);
+//		click(dashboard);
+//		lOGGER.info("clicking on dashboard button");
 	}
 
 	public void addContractPageVerification(String expected) {

@@ -1,5 +1,6 @@
 package Pages;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,23 +10,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import commons.BasePage;
 
 public class ReportDashboardPage extends BasePage {
 
-	protected static String widgetTitle;
-	protected static List<WebElement> widget;
+	protected static List<String> widgetTitle = new ArrayList<String>();;
 	protected static Random r = new Random();
 
-	@FindBy(xpath = "//input[@name='login[username]']")
-	WebElement usernameField;
-
-	@FindBy(xpath = "//input[@name='login[password]']")
-	WebElement passwordField;
-
-	@FindBy(xpath = "//button[@title='Login']")
-	WebElement loginButton;
+	@FindBy(tagName = "h3")
+	List<WebElement> widget;
 
 	@FindBy(xpath = "//div[@class='widget-title']//h3")
 	List<WebElement> widgetTitles;
@@ -41,13 +36,14 @@ public class ReportDashboardPage extends BasePage {
 
 	public void verifyWidgetsInDashboard() {
 
-		widget = driver.findElements(By.tagName("h3"));
 		for (int i = 0; i < widget.size(); i++) {
-			pause(1500);
-			widgetTitle = widget.get(i).getText();
-			System.out.println("The Widget title is :- " + widgetTitle);
+			wait.forElementToBeVisible(widget.get(i));
+			widgetTitle.add(widget.get(i).getText());
+			System.out.println(widgetTitle.get(i));
 		}
-		lOGGER.info("Printing the Titles of all the Widget available in dashboard");
+		Assert.assertEquals(17, (widgetTitle.size()),
+				"Please check the console whether all the available Widget Title have been printed correctly or not");
+		lOGGER.info("Verifying all the widgets and also printing the Titles of all the Widget available in dashboard");
 	}
 
 	public void clickOnViewReport(String widgetTitle) {
@@ -55,7 +51,7 @@ public class ReportDashboardPage extends BasePage {
 		WebElement viewReport = driver.findElement(By.xpath(
 				"//h3[contains(text()," + "'" + widgetTitle + "'" + ")]//ancestor::div[@class='inner']//div//a"));
 		wait.forElementToBeVisible(viewReport);
-		javaScriptClick(viewReport);
+		js.clickElement(viewReport);
 	}
 
 	public String selectRandomWidgetWithFilter() {
@@ -75,13 +71,10 @@ public class ReportDashboardPage extends BasePage {
 
 	public String selectRandomWidget() {
 
-		wait.forPage();
 		int randomNumberIndex = r.nextInt(widgetTitles.size());
+		wait.forElementToBeVisible(widgetTitles.get(randomNumberIndex));
 		String randomWidget = widgetTitles.get(randomNumberIndex).getText();
-//		randomNumberIndex = r.nextInt(widgetTitles.size());
-//		randomWidget = widgetTitles.get(randomNumberIndex).getText();
 		System.out.println("The Widget title is :------" + randomWidget);
-
 		return randomWidget;
 	}
 
@@ -90,8 +83,7 @@ public class ReportDashboardPage extends BasePage {
 //		String ignoredWidgets = "Tickets By Asset Type Total Tickets YTD Repair Tickets By Asset Type";
 		wait.forPage();
 		int randomNumberIndex = r.nextInt(ticketWidgetTitles.size());
-		String randomWidget = ticketWidgetTitles.get(randomNumberIndex).getText();
-		System.out.println("The Widget title before ignoring is :------" + randomWidget);
+		String randomWidget = (ticketWidgetTitles.get(randomNumberIndex)).getText();
 //		while ((ignoredWidgets.contains(randomWidget)) == false) {
 //			randomNumberIndex = r.nextInt(ticketWidgetTitles.size());
 //			randomWidget = ticketWidgetTitles.get(randomNumberIndex).getText();

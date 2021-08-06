@@ -45,8 +45,8 @@ public class SC_03_MyTicketsTest extends TestBase {
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 		assetsandservices.clickOnMyTickets();
 		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.validSearchVerification(InitializePropertyFile.property.getProperty("SC_03_Valid_Search"));
-		myTickets.invalidSearchVerification(InitializePropertyFile.property.getProperty("SC_03_Invalid_Search"));
+		myTickets.validSearchVerification();
+		myTickets.invalidSearchVerification();
 	}
 
 	@Test(priority = 3)
@@ -95,20 +95,19 @@ public class SC_03_MyTicketsTest extends TestBase {
 		myTickets.createTicketPageVerification(
 				InitializePropertyFile.property.getProperty("SC_03_Create_Ticket_Page_Title"));
 	}
-	
+
 	@Test(priority = 6)
 	public void TC_06_blankColumnVerification() {
-		
-		RandomInputPage random=new RandomInputPage(driver);
-		String randomUser=random.selectRandomUsername();
+
+		RandomInputPage random = new RandomInputPage(driver);
+		String randomUser = random.selectRandomUsername();
 		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser,
-				InitializePropertyFile.property.getProperty("password"));
+		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
 		HomePage homepage = new HomePage(driver);
 		homepage.clickOnMyAssetsAndServices();
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 		assetsandservices.clickOnMyTickets();
 		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.blankColumnVerification();
+		myTickets.blankColumnVerification(randomUser);
 	}
 }

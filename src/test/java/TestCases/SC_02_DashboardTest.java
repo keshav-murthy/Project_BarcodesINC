@@ -39,7 +39,7 @@ public class SC_02_DashboardTest extends TestBase {
 		HomePage homepage = new HomePage(driver);
 		homepage.clickOnMyAssetsAndServices();
 		ReportDashboardPage dashboard = new ReportDashboardPage(driver);
-		String widgetTitle = dashboard.selectRandomWidgetWithFilter();
+		String widgetTitle = dashboard.selectRandomWidget();
 		dashboard.clickOnViewReport(widgetTitle);
 		ViewReportPage report = new ViewReportPage(driver);
 		report.verifyReportDetails(widgetTitle);
@@ -56,8 +56,8 @@ public class SC_02_DashboardTest extends TestBase {
 		ReportDashboardPage dashboard = new ReportDashboardPage(driver);
 		dashboard.clickOnViewReport(InitializePropertyFile.property.getProperty("Widget_Title"));
 		ViewReportPage report = new ViewReportPage(driver);
-		report.validSearchVerification(InitializePropertyFile.property.getProperty("SC_02_Valid_Search"));
-		report.invalidSearchVerification(InitializePropertyFile.property.getProperty("SC_02_Invalid_Search"));
+		report.validSearchVerification();
+		report.invalidSearchVerification();
 	}
 
 	@Test(priority = 4)

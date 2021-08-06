@@ -39,9 +39,9 @@ public class SC_09_MyContractsTest extends TestBase {
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 		assetsandservices.clickOnMyContracts();
 		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.verifyValidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_09_Valid_Search"));
+		mycontracts.validSearchVerification();
 		mycontracts
-				.verifyInvalidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_09_Invalid_Search"));
+				.invalidSearchVerification();
 	}
 
 	@Test(priority = 3)

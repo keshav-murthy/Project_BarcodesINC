@@ -10,6 +10,11 @@ import commons.BasePage;
 
 public class MyAssetsAndServicesPage extends BasePage {
 
+	String pageTitle = driver.getTitle();
+
+	@FindBy(xpath = "//button[@name='agree']")
+	WebElement agreeButton;
+
 	@FindBy(xpath = "//p[@class='rma-link report']//span[contains(text(),'Report')]")
 	WebElement reportDashboard;
 
@@ -44,21 +49,28 @@ public class MyAssetsAndServicesPage extends BasePage {
 	public void clickOnMyTickets() {
 
 		wait.forElementToBeVisible(myTickets);
-		myTickets.click();
+		js.clickElement(myTickets);
 		lOGGER.info("Clicking on My Tickets Page Button");
 	}
 
 	public void clickOnMyAssets() {
 
+		if (pageTitle.contains("To access the Assets & Services portal")) {
+
+			wait.forElementToBeVisible(agreeButton);
+			js.clickElement(agreeButton);
+			lOGGER.info("clicked on terms & conditions Agree button");
+		}
+
 		wait.forElementToBeVisible(myAssets);
-		myAssets.click();
+		js.clickElement(myAssets);
 		lOGGER.info("Clicking on My Assets Page Button");
 	}
 
 	public void clickOnMyContracts() {
 
 		wait.forElementToBeVisible(myContracts);
-		myContracts.click();
+		js.clickElement(myContracts);
 		lOGGER.info("Clicking on My Contracts Page Button");
 	}
 

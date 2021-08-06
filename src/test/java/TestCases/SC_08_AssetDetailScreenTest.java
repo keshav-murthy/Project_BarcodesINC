@@ -20,6 +20,8 @@ import commons.TestBase;
 
 public class SC_08_AssetDetailScreenTest extends TestBase {
 
+	public static boolean flag;
+
 	@BeforeMethod
 	public void openPage() {
 		driver.get(InitializePropertyFile.property.getProperty("url"));
@@ -65,7 +67,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 		createTicket.createTicketPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_02"));
 	}
 
-	@Test(priority = 3)
+//	@Test(priority = 3)
 	public void TC_03_contractDetailsValidation() {
 
 		LoginPage loginpage = new LoginPage(driver);
@@ -129,9 +131,12 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 		myAsset.enterSearchField(randomAsset);
 		myAsset.verifyAsset(randomAsset);
 		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-		assetdetails.clickOnFirstTicket();
-		TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
-		ticketdetails.ticketDetailsPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_03"));
+		flag = assetdetails.clickOnFirstTicket();
+		if (flag == true) {
+			TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
+			ticketdetails
+					.ticketDetailsPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_03"));
+		}
 	}
 
 	@Test(priority = 6)
@@ -170,10 +175,9 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 	@Test(priority = 8)
 	public void TC_08_locationVerification() {
 
-		RandomInputPage random = new RandomInputPage(driver);
-		String randomUser = random.selectRandomUsername();
 		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
+		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+				InitializePropertyFile.property.getProperty("password"));
 		HomePage homepage = new HomePage(driver);
 		homepage.clickOnMyAssetsAndServices();
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);

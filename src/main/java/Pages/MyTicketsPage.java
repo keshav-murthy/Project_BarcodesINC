@@ -1,12 +1,16 @@
 package Pages;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,9 +20,16 @@ import commons.BasePage;
 
 public class MyTicketsPage extends BasePage {
 
+	protected static Random r = new Random();
+	protected static String actualResult;
 	protected static WebElement eachData;
+	protected static int k = 2;
+	Xls_Reader reader = new Xls_Reader(
+			System.getProperty("user.dir") + File.separator + "src/test/resources/BlankData.xlsx");
+	String sheetName = "MyTickets";
+	XSSFWorkbook workbook = null;
 
-	@FindBy(xpath = "//span//strong")
+	@FindBy(xpath = "//h1//span")
 	WebElement pageHeader;
 
 	@FindBy(xpath = "//input[@type='search']")
@@ -156,8 +167,13 @@ public class MyTicketsPage extends BasePage {
 		wait.forElementToBeVisible(search);
 		sendKeys(search, searchElement);
 		lOGGER.info("Entering the required data in search field");
-		String actualResult = driver
-				.findElement(By.xpath("//td//a[contains(text()," + "'" + searchElement + "'" + ")]")).getText();
+		try {
+			actualResult = driver.findElement(By.xpath("//td//a[contains(text()," + "'" + searchElement + "'" + ")]"))
+					.getText();
+		} catch (StaleElementReferenceException e) {
+			actualResult = driver.findElement(By.xpath("//td//a[contains(text()," + "'" + searchElement + "'" + ")]"))
+					.getText();
+		}
 		String expectedResult = searchElement;
 		Assert.assertEquals(actualResult, expectedResult);
 		lOGGER.info("Verifying search field with valid Serial Number");
@@ -170,15 +186,15 @@ public class MyTicketsPage extends BasePage {
 
 	}
 
-	public void invalidSearchVerification(String searchElement) {
-
-		wait.forElementToBeVisible(search);
-		sendKeys(search, searchElement);
-		lOGGER.info("Entering the required data in search field");
-		wait.forElementToBeVisible(emptyTable);
-		System.out.println(emptyTable.getText());
-		lOGGER.info("Verifying search field with Invalid Serial Number");
-	}
+//	public void invalidSearchVerification(String searchElement) {
+//
+//		wait.forElementToBeVisible(search);
+//		sendKeys(search, searchElement);
+//		lOGGER.info("Entering the required data in search field");
+//		wait.forElementToBeVisible(emptyTable);
+//		System.out.println(emptyTable.getText());
+//		lOGGER.info("Verifying search field with Invalid Serial Number");
+//	}
 
 	public void sortingVerification() {
 
@@ -269,6 +285,7 @@ public class MyTicketsPage extends BasePage {
 
 		wait.forElementToBeVisible(pageHeader);
 		String actual = pageHeader.getText();
+		actual = actual.substring(actual.indexOf("1") + 3);
 		Assert.assertEquals(actual, expected);
 		lOGGER.info("Verifying Page Heading of My Tickets page");
 	}
@@ -290,7 +307,20 @@ public class MyTicketsPage extends BasePage {
 		return quotes.get(nextRandomNumberIndex).getText();
 	}
 
-	public void blankColumnVerification() {
+	public void blankColumnVerification(String username) {
+
+		reader.removeColumn(sheetName, 0);
+		reader.removeColumn(sheetName, 1);
+		reader.removeColumn(sheetName, 2);
+
+		reader.addColumn(sheetName, "USERNAME");
+		reader.addColumn(sheetName, "TICKET ID");
+		reader.addColumn(sheetName, "COLUMN NAME");
+
+		String userInFile = reader.getCellData(sheetName, "USERNAME", k);
+		String nextData = reader.getCellData(sheetName, "TICKET ID", k);
+		if ((userInFile.contains(username) == false) && (nextData.isEmpty() == true))
+			reader.setCellData(sheetName, "USERNAME", k, username);
 
 		wait.forPage();
 		wait.forElementToBeVisible(tableLengthDropDown);
@@ -301,15 +331,20 @@ public class MyTicketsPage extends BasePage {
 		try {
 			for (int i = 0; i < tableRows.size(); i++) {
 				for (int j = 0; j < columnHeading.size() - 2; j++) {
+
 					eachData = driver.findElement(By.xpath("//tbody//tr[" + (i + 1) + "]//td[" + (j + 1) + "]//a"));
 					if ((eachData.getText().isEmpty()) == true) {
 
 						String ticketID = ticketIDData.get(i).getText();
 						String columnName = columnHeading.get((j) % columnHeading.size()).getText();
 						if (!((columnName.equals("Manufacturer")) || (columnName.equals("Model")))) {
-							System.out.println("One/Many column in this Ticket ID " + ticketID + " is blank ");
-							System.out.println("The blank Column name is " + columnName);
-						}
+//							System.out.println("One/Many column in this Ticket ID " + ticketID + " is blank ");
+//							System.out.println("The blank Column name is " + columnName);
+							reader.setCellData(sheetName, "TICKET ID", k, ticketID);
+							reader.setCellData(sheetName, "COLUMN NAME", k, columnName);
+							k++;
+						} else
+							reader.setCellData(sheetName, "TICKET ID", k, "There are no Blank data");
 					}
 				}
 			}
@@ -320,6 +355,84 @@ public class MyTicketsPage extends BasePage {
 			wait.forElementToBeVisible(emptyTable);
 			emptyTable.isDisplayed();
 			System.out.println(emptyTable.getText());
+		}
+	}
+
+	public void validSearchVerification() {
+
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+
+		wait.forPage();
+
+		int randomNumberIndex = r.nextInt(ticketIDData.size());
+		wait.forElementToBeVisible(ticketIDData.get(randomNumberIndex));
+		String randomRepairID = ticketIDData.get(randomNumberIndex).getText();
+		System.out.println("Valid search element to be entered is  :------" + randomRepairID);
+
+		wait.forElementToBeVisible(search);
+		scrollToTop();
+		sendKeys(search, randomRepairID);
+		lOGGER.info("Entering the required data in search field");
+		wait.forElementToBeVisible(
+				driver.findElement(By.xpath("//td//a[contains(text()," + "'" + randomRepairID + "'" + ")]")));
+		String actualResult = driver
+				.findElement(By.xpath("//td//a[contains(text()," + "'" + randomRepairID + "'" + ")]")).getText();
+		String expectedResult = randomRepairID;
+		Assert.assertEquals(actualResult, expectedResult);
+		lOGGER.info("Verifying search field with valid Serial Number");
+	}
+
+	public void invalidSearchVerification() {
+
+		wait.forPage();
+		String n = genRandomString();
+		wait.forElementToBeVisible(search);
+		scrollToTop();
+		System.out.println("Invalid search element to be entered is :------" + n);
+		lOGGER.info("Entering the required data in search field");
+		sendKeys(search, n);
+		search.sendKeys(Keys.ENTER);
+		try {
+			System.out.println(emptyTable.getText());
+		} catch (Exception e) {
+//			System.out.println(emptyTable.getText());
+			driver.navigate().refresh();
+			invalidSearchVerification();
+		}
+		lOGGER.info("Verifying search field with Invalid Ticket ID");
+	}
+
+	public void blankColumnVerification() {
+
+		wait.forPage();
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		wait.forPage();
+
+		try {
+			for (int i = 0; i < tableRows.size(); i++) {
+				for (int j = 0; j < columnHeading.size() - 2; j++) {
+
+					eachData = driver.findElement(By.xpath("//tbody//tr[" + (i + 1) + "]//td[" + (j + 1) + "]//a"));
+
+					String ticketID = ticketIDData.get(i).getText();
+					String columnName = columnHeading.get((j) % columnHeading.size()).getText();
+					if (!((columnName.equals("Manufacturer")) || (columnName.equals("Model")))) {
+						lOGGER.info("One/Many column in this Ticket ID " + ticketID + " is blank ");
+						lOGGER.info("The blank Column name is " + columnName);
+					}
+				}
+			}
+			if ((eachData.getText().isEmpty()) == true)
+				lOGGER.info("There are no blank columns in this Ticket lists");
+		} catch (
+
+		NoSuchElementException e) {
+
+			wait.forElementToBeVisible(emptyTable);
+			emptyTable.isDisplayed();
+			lOGGER.info(emptyTable.getText());
 		}
 	}
 }
