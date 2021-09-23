@@ -1,12 +1,17 @@
 package Pages;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,8 +22,19 @@ import commons.BasePage;
 
 public class ViewReportPage extends BasePage {
 
-	@FindBy(xpath = "//h2")
-	WebElement reportHeader;
+	protected static int i;
+	protected static Random r = new Random();
+	protected static ArrayList<String> obtainedList = new ArrayList<String>();
+	protected static ArrayList<String> sortedList = new ArrayList<String>();
+
+	@FindBy(xpath = "//div[@class='breadcrumbs']//strong")
+	WebElement breadcrumbTitle;
+
+	@FindBy(xpath = "//h1//span")
+	WebElement reportHeader1;
+
+	@FindBy(xpath = "//div[@class='box-head page-sub-title']")
+	WebElement reportHeader2;
 
 	@FindBy(xpath = "//input[@id='from_date']")
 	WebElement fromDate;
@@ -38,7 +54,7 @@ public class ViewReportPage extends BasePage {
 	@FindBy(xpath = "//tbody//tr//td[@class='reorder sorting_1']")
 	List<WebElement> table;
 
-	@FindBy(xpath = "//tbody//tr//td[@class=' reorder'][6]")
+	@FindBy(xpath = "//tbody//tr//td[8]")
 	List<WebElement> dateTable;
 
 	@FindBy(xpath = "//tbody//tr//td[1]")
@@ -83,17 +99,41 @@ public class ViewReportPage extends BasePage {
 	@FindBy(xpath = "//table//th[3]")
 	WebElement firstColumn;
 
+	@FindBy(xpath = "//table//tr//td[3]")
+	List<WebElement> firstColumnData;
+
 	@FindBy(xpath = "//table//th[4]")
 	WebElement secondColumn;
+
+	@FindBy(xpath = "//table//tr//td[4]")
+	List<WebElement> secondColumnData;
 
 	@FindBy(xpath = "//table//th[5]")
 	WebElement thirdColumn;
 
+	@FindBy(xpath = "//table//tr//td[5]")
+	List<WebElement> thirdColumnData;
+
 	@FindBy(xpath = "//table//th[6]")
 	WebElement fourthColumn;
 
+	@FindBy(xpath = "//table//tr//td[6]")
+	List<WebElement> fourthColumnData;
+
+	@FindBy(xpath = "//table//tr//td[7]")
+	List<WebElement> fifthColumnData;
+
+	@FindBy(xpath = "//tbody//tr")
+	List<WebElement> tableLength;
+
 	@FindBy(xpath = "//select[@name='ticket-table_length']")
 	WebElement tableLengthDropDown;
+
+	@FindBy(xpath = "//div[@class='sorting-block']")
+	WebElement contractTypeDropDown;
+
+	@FindBy(xpath = "//input[@type='checkbox']")
+	List<WebElement> contractTypes;
 
 	private static final Logger lOGGER = LogManager.getLogger(ViewReportPage.class.getName());
 
@@ -103,11 +143,15 @@ public class ViewReportPage extends BasePage {
 
 	public void verifyReportDetails(String expected) {
 
-		wait.forPage(2000);
-		wait.forElementToBeVisible(reportHeader);
-		String actual = reportHeader.getText();
-		Assert.assertEquals(expected, actual);
-
+		try {
+			wait.forElementToBeVisible(reportHeader1);
+			String actual = reportHeader1.getText();
+			Assert.assertTrue(expected.contains(actual));
+		} catch (TimeoutException e) {
+			wait.forElementToBeVisible(reportHeader1);
+			String actual = reportHeader1.getText();
+			Assert.assertTrue(expected.contains(actual));
+		}
 		lOGGER.info("Verifying the report details page Heading");
 	}
 
@@ -119,26 +163,42 @@ public class ViewReportPage extends BasePage {
 		viewReport.click();
 	}
 
-	public void validSearchVerification(String searchElement) {
+	public void validSearchVerification() {
+
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+
+		int randomNumberIndex = r.nextInt(repairIDList.size());
+		wait.forElementToBeVisible(repairIDList.get(randomNumberIndex));
+		String randomRepairID = repairIDList.get(randomNumberIndex).getText();
+		System.out.println("Valid search element to be entered is  :------" + randomRepairID);
 
 		wait.forElementToBeVisible(search);
-		sendKeys(search, searchElement);
+		scrollToTop();
+		sendKeys(search, randomRepairID);
 		lOGGER.info("Entering the required data in search field");
-		wait.forPage();
-		String actualResult = driver.findElement(By.xpath("//td[contains(text()," + "'" + searchElement + "'" + ")]"))
-				.getText();
-		String expectedResult = searchElement;
+		wait.forElementToBeVisible(
+				driver.findElement(By.xpath("//td//a[contains(text()," + "'" + randomRepairID + "'" + ")]")));
+		String actualResult = driver
+				.findElement(By.xpath("//td//a[contains(text()," + "'" + randomRepairID + "'" + ")]")).getText();
+		String expectedResult = randomRepairID;
 		Assert.assertEquals(actualResult, expectedResult);
 		lOGGER.info("Verifying search field with valid Serial Number");
 	}
 
-	public void invalidSearchVerification(String searchElement) {
+	public void invalidSearchVerification() {
 
+		String n = genRandomString();
 		wait.forElementToBeVisible(search);
-		sendKeys(search, searchElement);
+		scrollToTop();
+		System.out.println("Invalid search element to be entered is :------" + n);
+		sendKeys(search, n);
 		lOGGER.info("Entering the required data in search field");
-		wait.forElementToBeVisible(emptyTable);
-		System.out.println(emptyTable.getText());
+		try {
+			System.out.println(emptyTable.getText());
+		} catch (StaleElementReferenceException e) {
+			System.out.println(emptyTable.getText());
+		}
 		lOGGER.info("Verifying search field with Invalid Serial Number");
 	}
 
@@ -148,9 +208,15 @@ public class ViewReportPage extends BasePage {
 		System.out.println(pages.size());
 		if ((pages.size()) == 0) {
 
-			wait.forPage(1500);
-			wait.forElementToBeVisible(dataTableInfo);
-			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
+//			try {
+//				wait.forPage();
+//				wait.forElementToBeVisible(dataTableInfo);
+//			} catch (TimeoutException e) {
+//				driver.navigate().refresh();
+//				wait.forPage();
+//				wait.forElementToBeVisible(dataTableInfo);
+//			}
+//			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
 		} else {
 			String last = driver
 					.findElement(By.xpath(
@@ -161,14 +227,15 @@ public class ViewReportPage extends BasePage {
 			} catch (Exception e) {
 				lastPage = 1;
 			}
-			for (int i = 0; i < lastPage - 1; i++) {
+			for (i = 0; i < lastPage - 1; i++) {
 
 				wait.forPage(1500);
 				wait.forElementToBeVisible(currentPage);
-				System.out.println("This is the Current page that is focused on :- " + currentPage.getText());
+				Assert.assertEquals(currentPage.getText(), Integer.toString(i + 1));
+//				System.out.println("This is the Current page that is focused on :- " + currentPage.getText());
 
 				wait.forElementToBeVisible(dataTableInfo);
-				System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
+//				System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
 
 				wait.forElementToBeVisible(nextArrow);
 				click(nextArrow);
@@ -176,10 +243,11 @@ public class ViewReportPage extends BasePage {
 
 			wait.forPage(1500);
 			wait.forElementToBeVisible(currentPage);
-			System.out.println("This is the Current page that is focused on :- " + currentPage.getText());
+			Assert.assertEquals(currentPage.getText(), Integer.toString(i + 1));
+//			System.out.println("This is the Current page that is focused on :- " + currentPage.getText());
 
 			wait.forElementToBeVisible(dataTableInfo);
-			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
+//			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
 		}
 	}
 
@@ -217,11 +285,16 @@ public class ViewReportPage extends BasePage {
 		try {
 			while (emptyTable.isDisplayed() == true) {
 				System.out.println(emptyTable.getText());
+				break;
 			}
 		} catch (NoSuchElementException e) {
 			List<WebElement> content = table;
 			for (int i = 0; i < content.size(); i++) {
 				pause(500);
+//			for (int i = 0; i < firstColumnData.size(); i++) {
+//				obtainedList.add(firstColumnData.get(i).getText());
+//			}
+//			Assert.assertTrue(sortedList.equals(obtainedList));
 				System.out.println(
 						"displaying details of table after sorting of column :----" + content.get(i).getText());
 			}
@@ -230,15 +303,23 @@ public class ViewReportPage extends BasePage {
 
 	public void dateRangeVerification(String startDate, String endDate) {
 
+		wait.forPage();
 		wait.forElementToBeVisible(fromDate);
 		javaScriptSendValue(fromDate, startDate);
 		lOGGER.info("Entering the starting date in date field");
+
+//		wait.forElementToBeVisible(fromDate);
+//		JavascriptExecutor js = ((JavascriptExecutor) driver);
+//		js.executeScript("arguments[0].setAttribute('value','" + startDate + "');", fromDate);
+//
+//		wait.forElementToBeVisible(toDate);
+//		js.executeScript("arguments[0].setAttribute('value','" + endDate + "');", toDate);
 
 		wait.forElementToBeVisible(toDate);
 		javaScriptSendValue(toDate, endDate);
 		lOGGER.info("Entering the ending date in date field");
 
-		pause(5000);
+		wait.forElementToBeVisible(dateTable.get(0));
 		List<WebElement> dateContent = dateTable;
 		for (int i = 0; i < dateContent.size(); i++) {
 			System.out.println(
@@ -254,6 +335,18 @@ public class ViewReportPage extends BasePage {
 	}
 
 	public void sortingVerification() {
+
+//		wait.forElementToBeVisible(tableLengthDropDown);
+//		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+
+//		pause(1000);
+//		firstColumnSortingVerification();
+//		pause(1000);
+//		secondColumnSortingVerification();
+//		pause(1000);
+//		thirdColumnSortingVerification();
+//		pause(1000);
+//		fourthColumnSortingVerification();
 
 		pause(1000);
 		wait.forElementToBeVisible(firstColumn);
@@ -285,12 +378,17 @@ public class ViewReportPage extends BasePage {
 		pause(1000);
 		wait.forElementToBeVisible(fourthColumn);
 		click(fourthColumn);
-		lOGGER.info("Sorting the " + fourthColumn.getText() + " column in Descending order");
+		lOGGER.info("Sorting the " + fourthColumn.getText() + " column in Ascending order");
 		printTableContent();
 	}
 
 	public void blankRepairIDVerification(String widgetTitle) {
 
+		try {
+			System.out.println("The Ticket Widget title selected is :------" + reportHeader1.getText());
+		} catch (TimeoutException e) {
+			System.out.println("The Ticket Widget title selected is :------" + reportHeader2.getText());
+		}
 		int count = 0;
 		wait.forPage();
 		wait.forElementToBeVisible(tableLengthDropDown);
@@ -313,5 +411,143 @@ public class ViewReportPage extends BasePage {
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(emptyTable.getText());
 		}
+	}
+
+	public void firstColumnSortingVerification() {
+
+		for (int i = 0; i < firstColumnData.size(); i++) {
+//			wait.forElementToBeVisible(firstColumnData.get(i));
+			sortedList.add(firstColumnData.get(i).getText());
+		}
+		Collections.sort(sortedList);
+		Collections.reverse(sortedList);
+		wait.forElementToBeVisible(firstColumn);
+		click(firstColumn);
+		pause(1000);
+		wait.forElementToBeVisible(firstColumn);
+		click(firstColumn);
+		lOGGER.info("Sorting the " + firstColumn.getText() + " column in Descending order");
+		pause(500);
+		for (int i = 0; i < firstColumnData.size(); i++) {
+//			wait.forElementToBeVisible(firstColumnData.get(i));
+			obtainedList.add(firstColumnData.get(i).getText());
+		}
+		Assert.assertTrue(sortedList.containsAll(obtainedList));
+		sortedList.clear();
+		obtainedList.clear();
+	}
+
+	public void secondColumnSortingVerification() {
+
+		for (int i = 0; i < secondColumnData.size(); i++) {
+//			wait.forElementToBeVisible(secondColumnData.get(i));
+			sortedList.add(secondColumnData.get(i).getText());
+		}
+		Collections.sort(sortedList);
+		Collections.reverse(sortedList);
+		wait.forElementToBeVisible(secondColumn);
+		click(secondColumn);
+		pause(1000);
+		wait.forElementToBeVisible(secondColumn);
+		click(secondColumn);
+		lOGGER.info("Sorting the " + secondColumn.getText() + " column in Descending order");
+		pause(500);
+		for (int i = 0; i < secondColumnData.size(); i++) {
+//			wait.forElementToBeVisible(secondColumnData.get(i));
+			obtainedList.add(secondColumnData.get(i).getText());
+		}
+		Assert.assertTrue(sortedList.containsAll(obtainedList));
+		sortedList.clear();
+		obtainedList.clear();
+	}
+
+	public void thirdColumnSortingVerification() {
+
+		for (int i = 0; i < thirdColumnData.size(); i++) {
+//			wait.forElementToBeVisible(thirdColumnData.get(i));
+			sortedList.add(thirdColumnData.get(i).getText());
+		}
+		Collections.sort(sortedList);
+		Collections.reverse(sortedList);
+		wait.forElementToBeVisible(thirdColumn);
+		click(thirdColumn);
+		pause(1000);
+		wait.forElementToBeVisible(thirdColumn);
+		click(thirdColumn);
+		lOGGER.info("Sorting the " + thirdColumn.getText() + " column in Descending order");
+		pause(500);
+		for (int i = 0; i < thirdColumnData.size(); i++) {
+//			wait.forElementToBeVisible(thirdColumnData.get(i));
+			obtainedList.add(thirdColumnData.get(i).getText());
+		}
+		Assert.assertTrue(sortedList.containsAll(obtainedList));
+		sortedList.clear();
+		obtainedList.clear();
+	}
+
+	public void fourthColumnSortingVerification() {
+
+		for (int i = 0; i < fourthColumnData.size(); i++) {
+//			wait.forElementToBeVisible(fourthColumnData.get(i));
+			sortedList.add(fourthColumnData.get(i).getText());
+		}
+		Collections.sort(sortedList);
+		wait.forElementToBeVisible(fourthColumn);
+		click(fourthColumn);
+		lOGGER.info("Sorting the " + fourthColumn.getText() + " column in Ascending order");
+		pause(500);
+		for (int i = 0; i < fourthColumnData.size(); i++) {
+//			wait.forElementToBeVisible(fourthColumnData.get(i));
+			obtainedList.add(fourthColumnData.get(i).getText());
+		}
+		Assert.assertTrue(sortedList.containsAll(obtainedList));
+		sortedList.clear();
+		obtainedList.clear();
+	}
+
+	public int getTotalcontracts() {
+
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		wait.forPage();
+		lOGGER.info("Fetching the total assets under TSP contracts from the table");
+		wait.forElementToBeVisible(tableLength.get(0));
+		return tableLength.size();
+	}
+
+	public void verifyBreadcrumbTrail() {
+
+		wait.forElementToBeVisible(breadcrumbTitle);
+		wait.forElementToBeVisible(reportHeader2);
+		Assert.assertEquals(breadcrumbTitle.getText(), reportHeader2.getText());
+	}
+
+	public void verifyContractColumn() {
+
+		wait.forElementToBeVisible(fourthColumn);
+		click(fourthColumn);
+		contractTypeData();
+		wait.forElementToBeVisible(contractTypeDropDown);
+		click(contractTypeDropDown);
+		wait.forElementToBeVisible(contractTypes.get(0));
+		click(contractTypes.get(0));
+		contractTypeData();
+		lOGGER.info("Verifying the data to be sorted and filtered out in contract type column");
+	}
+
+	public void contractTypeData() {
+
+		for (int i = 0; i < fourthColumnData.size(); i++)
+			Assert.assertEquals(fourthColumnData.get(i).getText(), "OEM Service Contracts");
+	}
+
+	public void verifyLocation() {
+
+		for (int i = 0; i < fifthColumnData.size(); i++) {
+			wait.forElementToBeVisible(fifthColumnData.get(i));
+			if (fifthColumnData.get(i).getText() != "-NA-")
+				click(fifthColumnData.get(i));
+		}
+		System.out.println("There are no locations assigned to the contracts");
 	}
 }

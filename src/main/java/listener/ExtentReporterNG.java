@@ -58,7 +58,12 @@ public class ExtentReporterNG implements IReporter {
 				} else {
 					test.log(status, "Test " + status.toString().toLowerCase() + "ed");
 				}
-
+				if (result.getStatus() == ITestResult.FAILURE) {
+					String filename = result.getMethod().getMethodName();
+					String screenshotPath = System.getProperty("user.dir") + File.separator + "screenshots"
+							+ File.separator + filename + ".jpg";
+					test.log(LogStatus.FAIL, test.addScreenCapture(screenshotPath));
+				}
 				extent.endTest(test);
 			}
 		}

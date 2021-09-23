@@ -5,6 +5,5 @@ public class Timeouts {
 	public static final int EXPLICIT = 30;
 	public static final int POLLING_INTERVAL = 55;
 	public static final int PAGE = 120;
-	public static final int WAITFORMAIL = 60000 * 2;
 	public static final int WAITFORDATABASEUPLOAD = 60000;
 }

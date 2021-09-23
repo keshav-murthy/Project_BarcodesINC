@@ -15,7 +15,7 @@ public class SC_09_MyContractsTest extends TestBase {
 
 	@BeforeMethod
 	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 
 		LoginPage loginpage = new LoginPage(driver);
 		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
@@ -27,40 +27,55 @@ public class SC_09_MyContractsTest extends TestBase {
 	@Test(priority = 1)
 	public void TC_01_contractDetailList() {
 
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyContracts();
-		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.myContractsPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_01"));
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.myContractsPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_01"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 2)
 	public void TC_02_verifySearch() {
 
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyContracts();
-		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.verifyValidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_09_Valid_Search"));
-		mycontracts
-				.verifyInvalidSearchedSerialNumber(InitializePropertyFile.property.getProperty("SC_09_Invalid_Search"));
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.validSearchVerification();
+			mycontracts.invalidSearchVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 3)
 	public void TC_03_sortingColumns() {
 
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyContracts();
-		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.sortingVerification();
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.sortingVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 4)
 	public void TC_04_addContract() {
 
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyContracts();
-		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.clickOnAddContract();
-		AddContractPage addContract = new AddContractPage(driver);
-		addContract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_02"));
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.clickOnAddContract();
+			AddContractPage addContract = new AddContractPage(driver);
+			addContract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_02"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

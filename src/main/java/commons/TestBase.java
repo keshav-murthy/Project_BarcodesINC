@@ -1,11 +1,12 @@
 package commons;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -24,7 +25,8 @@ import listener.ListenerTest;
 public class TestBase {
 
 	public WebDriver driver;
-
+//	public  File folder=new File("downloads");
+	
 	@BeforeMethod
 	public void setUp() throws FileNotFoundException, IOException {
 		this.driver = createDriver();
@@ -32,7 +34,7 @@ public class TestBase {
 		InitializePropertyFile.loadPropertyFile();
 	}
 
-//	@AfterMethod
+	@AfterMethod
 	public void tearDown() {
 		if (driver != null) {
 			// driver.close();
@@ -43,7 +45,9 @@ public class TestBase {
 	private ChromeDriver createDriver() {
 
 		WebDriverManager.chromedriver().setup();
-		return new ChromeDriver();
+		ChromeOptions options = (ChromeOptions) getOptions("chrome");
+//		downloadSettings(options);
+		return new ChromeDriver(options);
 
 //		WebDriverManager.firefoxdriver().setup();
 //		return new FirefoxDriver();
@@ -81,12 +85,19 @@ public class TestBase {
 		driver.manage().timeouts().pageLoadTimeout(Timeouts.PAGE, TimeUnit.SECONDS);
 		driver.manage().timeouts().setScriptTimeout(Timeouts.PAGE, TimeUnit.SECONDS);
 	}
-
-	public void maintainSameSession() {
-		Set<Cookie> allCookies = driver.manage().getCookies();
-		for (Cookie cookie : allCookies) {
-			driver.manage().addCookie(cookie);
-		}
-	}
-
+	
+//	@SuppressWarnings("deprecation")
+//	public WebDriver downloadSettings(ChromeOptions options) {
+//		
+//		Map<String, Object> prefs = new HashMap<String, Object>();
+//		prefs.put("profile.default_content_settings.popups", 0);
+//		prefs.put("download.default_directory", folder.getAbsolutePath());
+//
+//		options.setExperimentalOption("prefs", prefs);
+//		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+//		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//
+//		driver = new ChromeDriver(capabilities);
+//		return driver;
+//	}
 }

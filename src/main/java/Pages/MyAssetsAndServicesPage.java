@@ -4,11 +4,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import commons.BasePage;
 
 public class MyAssetsAndServicesPage extends BasePage {
+
+	String pageTitle = driver.getTitle();
+	Actions action = new Actions(driver);
+
+	@FindBy(xpath = "//button[@name='agree']")
+	WebElement agreeButton;
 
 	@FindBy(xpath = "//p[@class='rma-link report']//span[contains(text(),'Report')]")
 	WebElement reportDashboard;
@@ -28,6 +35,12 @@ public class MyAssetsAndServicesPage extends BasePage {
 	@FindBy(xpath = "//p[@class='rma-link tickets']//span[contains(text(),'Create')]")
 	WebElement createTicket;
 
+	@FindBy(xpath = "//p[@class='rma-link admin-panel']//span[contains(text(),'Admin')]")
+	WebElement adminPanel;
+
+	@FindBy(xpath = "//span//a[@class='locations']")
+	WebElement locations;
+
 	private static final Logger lOGGER = LogManager.getLogger(MyAssetsAndServicesPage.class.getName());
 
 	public MyAssetsAndServicesPage(WebDriver driver) {
@@ -44,21 +57,28 @@ public class MyAssetsAndServicesPage extends BasePage {
 	public void clickOnMyTickets() {
 
 		wait.forElementToBeVisible(myTickets);
-		myTickets.click();
+		js.clickElement(myTickets);
 		lOGGER.info("Clicking on My Tickets Page Button");
 	}
 
 	public void clickOnMyAssets() {
 
+		if (pageTitle.contains("To access the Assets & Services portal")) {
+
+			wait.forElementToBeVisible(agreeButton);
+			js.clickElement(agreeButton);
+			lOGGER.info("clicked on terms & conditions Agree button");
+		}
+
 		wait.forElementToBeVisible(myAssets);
-		myAssets.click();
+		js.clickElement(myAssets);
 		lOGGER.info("Clicking on My Assets Page Button");
 	}
 
 	public void clickOnMyContracts() {
 
 		wait.forElementToBeVisible(myContracts);
-		myContracts.click();
+		js.clickElement(myContracts);
 		lOGGER.info("Clicking on My Contracts Page Button");
 	}
 
@@ -74,5 +94,13 @@ public class MyAssetsAndServicesPage extends BasePage {
 		wait.forElementToBeVisible(createTicket);
 		createTicket.click();
 		lOGGER.info("Clicking on Create Ticket Page Button");
+	}
+
+	public void clickOnLocation() {
+
+		wait.forElementToBeVisible(adminPanel);
+		action.moveToElement(adminPanel).perform();
+		js.clickElement(locations);
+		lOGGER.info("Clicking on Location Button in Admin Panel");
 	}
 }

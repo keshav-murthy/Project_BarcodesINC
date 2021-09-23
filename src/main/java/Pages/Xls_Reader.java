@@ -59,7 +59,6 @@ public class Xls_Reader {
 	 * @return
 	 */
 	// returns the data from a cell
-	@SuppressWarnings("deprecation")
 	public String getCellData(String sheetName, String colName, int rowNum) {
 		try {
 			if (rowNum <= 0)
@@ -73,7 +72,7 @@ public class Xls_Reader {
 			sheet = workbook.getSheetAt(index);
 			row = sheet.getRow(0);
 			for (int i = 0; i < row.getLastCellNum(); i++) {
-				// System.out.println(row.getCell(i).getStringCellValue().trim());
+//				 System.out.println(row.getCell(i).getStringCellValue().trim());
 				if (row.getCell(i).getStringCellValue().trim().equals(colName.trim()))
 					col_Num = i;
 			}

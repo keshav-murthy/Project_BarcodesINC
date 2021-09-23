@@ -12,7 +12,7 @@ import commons.BasePage;
 
 public class CreateTicketPage extends BasePage {
 
-	@FindBy(xpath = "//h2[@class='legend']")
+	@FindBy(xpath = "//h1[@class='page-title']")
 	WebElement pageHeader;
 
 	@FindBy(xpath = "//input[@id='support_troubleshoot']")
@@ -24,7 +24,7 @@ public class CreateTicketPage extends BasePage {
 	@FindBy(xpath = "//label[text()='Issue Title']//parent::div//div//input")
 	WebElement issueTitle;
 
-	@FindBy(xpath = "//div[@class='input-box']//textarea")
+	@FindBy(xpath = "(//div[@class='input-box']//textarea)[2]")
 	WebElement issueDescription;
 
 	@FindBy(xpath = "//input[@class='file_attachment']")
@@ -60,7 +60,7 @@ public class CreateTicketPage extends BasePage {
 	@FindBy(xpath = "//button[text()='Send']")
 	WebElement send;
 
-	@FindBy(xpath = "//a[contains(text(),'go to dashboard')]")
+	@FindBy(xpath = "(//a[contains(text(),'Go to dashboard')])[2]")
 	WebElement dashboard;
 
 	private static final Logger lOGGER = LogManager.getLogger(CreateTicketPage.class.getName());
@@ -90,11 +90,6 @@ public class CreateTicketPage extends BasePage {
 		wait.forElementToBeVisible(issueTitle);
 		sendKeys(issueTitle, "Issues related to the printer");
 		lOGGER.info("Enter Issue Title ");
-
-		wait.forElementToBeVisible(issueDescription);
-		sendKeys(issueDescription,
-				"My printer is unable to connect via Wifi and this issue is creating lot of problems for remote operation");
-		lOGGER.info("Enter Details Of Issues");
 
 //		wait.forElementToBeVisible(contactName);
 //		sendKeys(contactName, "Demo");
@@ -132,6 +127,11 @@ public class CreateTicketPage extends BasePage {
 		wait.forElementToBeVisible(issueDropDown);
 		dropDownMethod(issueDropDown, "VisibleText", "Wifi Failure");
 		lOGGER.info("Select Issue from the dropdown");
+
+		wait.forElementToBeVisible(issueDescription);
+		sendKeys(issueDescription,
+				"My printer is unable to connect via Wifi and this issue is creating lot of problems for remote operation");
+		lOGGER.info("Enter Details Of Issues");
 
 		wait.forElementToBeVisible(send);
 		click(send);

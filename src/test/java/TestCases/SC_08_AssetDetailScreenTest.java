@@ -20,165 +20,198 @@ import commons.TestBase;
 
 public class SC_08_AssetDetailScreenTest extends TestBase {
 
+	public static boolean flag;
+
 	@BeforeMethod
 	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
-//	@Test(priority = 1)
-//	public void TC_01_addContractPageVerification() {
-//
-//		LoginPage loginpage = new LoginPage(driver);
-//		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-//				InitializePropertyFile.property.getProperty("password"));
-//		HomePage homepage = new HomePage(driver);
-//		homepage.clickOnMyAssetsAndServices();
-//		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//		assetsandservices.clickOnMyAssets();
-//		MyAssetsPage myAsset = new MyAssetsPage(driver);
-//		String randomAsset = myAsset.selectRandomAsset();
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-//		assetdetails.clickOnAddContract();
-//		AddContractPage addcontract = new AddContractPage(driver);
-//		addcontract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_01"));
-//	}
-//
-//	@Test(priority = 2)
-//	public void TC_02_createTicketPageVerification() {
-//
-//		LoginPage loginpage = new LoginPage(driver);
-//		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-//				InitializePropertyFile.property.getProperty("password"));
-//		HomePage homepage = new HomePage(driver);
-//		homepage.clickOnMyAssetsAndServices();
-//		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//		assetsandservices.clickOnMyAssets();
-//		MyAssetsPage myAsset = new MyAssetsPage(driver);
-//		String randomAsset = myAsset.selectRandomAsset();
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-//		assetdetails.clickOnCreateTicket();
-//		CreateTicketPage createTicket = new CreateTicketPage(driver);
-//		createTicket.createTicketPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_02"));
-//	}
-//
+	@Test(priority = 1)
+	public void TC_01_addContractPageVerification() {
+
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			myAsset.enterSearchField(randomAsset);
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.clickOnAddContract();
+			AddContractPage addcontract = new AddContractPage(driver);
+			addcontract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_01"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 2)
+	public void TC_02_createTicketPageVerification() {
+
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			myAsset.enterSearchField(randomAsset);
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.clickOnCreateTicket();
+			CreateTicketPage createTicket = new CreateTicketPage(driver);
+			createTicket
+					.createTicketPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_02"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 //	@Test(priority = 3)
-//	public void TC_03_contractDetailsValidation() {
-//
-//		LoginPage loginpage = new LoginPage(driver);
-//		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-//				InitializePropertyFile.property.getProperty("password"));
-//		HomePage homepage = new HomePage(driver);
-//		homepage.clickOnMyAssetsAndServices();
-//		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//		assetsandservices.clickOnMyAssets();
-//		MyAssetsPage myAsset = new MyAssetsPage(driver);
-//		String randomAsset = myAsset.selectRandomAsset();
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
-//		String barcodesContractName = assetdetail.getFirstContractName();
-//
-//		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));
-//		NetsuiteLoginPage login = new NetsuiteLoginPage(driver);
-//		login.userLoginProcedure(InitializePropertyFile.property.getProperty("NetSuite_Username"),
-//				InitializePropertyFile.property.getProperty("NetSuite_Password"));
-//		login.enterAnswerToSecurityQuestion(InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_01"),
-//				InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_02"),
-//				InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_03"));
-//		NetSuitePage netsuite = new NetSuitePage(driver);
-//		netsuite.displayNetsuiteAssetDetails(randomAsset);
-//		String netsuiteContractName = netsuite.getFirstContractName();
-//		ValidationPage validation = new ValidationPage(driver);
-//		validation.contractDetailsValidation(barcodesContractName, netsuiteContractName);
-//	}
-//
-//	@Test(priority = 4)
-//	public void TC_04_ticketDetailsOfAsset() {
-//
-//		LoginPage loginpage = new LoginPage(driver);
-//		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-//				InitializePropertyFile.property.getProperty("password"));
-//		HomePage homepage = new HomePage(driver);
-//		homepage.clickOnMyAssetsAndServices();
-//		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//		assetsandservices.clickOnMyAssets();
-//		MyAssetsPage myAsset = new MyAssetsPage(driver);
-//		String randomAsset = myAsset.selectRandomAsset();
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-//		assetdetails.ticketDetailsOfAsset();
-//	}
-//
-//	@Test(priority = 5)
-//	public void TC_05_ticketDetailsPage() {
-//
-//		LoginPage loginpage = new LoginPage(driver);
-//		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-//				InitializePropertyFile.property.getProperty("password"));
-//		HomePage homepage = new HomePage(driver);
-//		homepage.clickOnMyAssetsAndServices();
-//		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//		assetsandservices.clickOnMyAssets();
-//		MyAssetsPage myAsset = new MyAssetsPage(driver);
-//		String randomAsset = myAsset.selectRandomAsset();
-//		myAsset.enterSearchField(randomAsset);
-//		myAsset.verifyAsset(randomAsset);
-//		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-//		assetdetails.clickOnFirstTicket();
-//		TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
-//		ticketdetails.ticketDetailsPageVerification(InitializePropertyFile.property.getProperty("SC_08_Page_Title_03"));
-//	}
+	public void TC_03_contractDetailsValidation() {
 
-//	@Test(priority = 6,invocationCount=1)
-	public void TC_06_realImageVerification() {
-
-		RandomInputPage random = new RandomInputPage(driver);
-		String randomUser = random.selectRandomUsername();
 		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
+		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+				InitializePropertyFile.property.getProperty("password"));
 		HomePage homepage = new HomePage(driver);
 		homepage.clickOnMyAssetsAndServices();
 		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 		assetsandservices.clickOnMyAssets();
 		MyAssetsPage myAsset = new MyAssetsPage(driver);
 		String randomAsset = myAsset.selectRandomAsset();
+		myAsset.enterSearchField(randomAsset);
 		myAsset.verifyAsset(randomAsset);
-		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-		assetdetails.imageVerfication();
+		AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
+		String barcodesContractName = assetdetail.getFirstContractName();
+
+		driver.navigate().to(InitializePropertyFile.property.getProperty("NetSuite_URL"));
+		NetsuiteLoginPage login = new NetsuiteLoginPage(driver);
+		login.userLoginProcedure(InitializePropertyFile.property.getProperty("NetSuite_Username"),
+				InitializePropertyFile.property.getProperty("NetSuite_Password"));
+		login.enterAnswerToSecurityQuestion(InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_01"),
+				InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_02"),
+				InitializePropertyFile.property.getProperty("NetSuite_Security_Answer_03"));
+		NetSuitePage netsuite = new NetSuitePage(driver);
+		netsuite.displayNetsuiteAssetDetails(randomAsset);
+		String netsuiteContractName = netsuite.getFirstContractName();
+		ValidationPage validation = new ValidationPage(driver);
+		validation.contractDetailsValidation(barcodesContractName, netsuiteContractName);
 	}
 
-	@Test(priority = 7, invocationCount = 1)
+	@Test(priority = 4)
+	public void TC_04_ticketDetailsOfAsset() {
+
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			myAsset.enterSearchField(randomAsset);
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.ticketDetailsOfAsset();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 5)
+	public void TC_05_ticketDetailsPage() {
+
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			myAsset.enterSearchField(randomAsset);
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			flag = assetdetails.clickOnFirstTicket();
+			if (flag == true) {
+				TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
+				ticketdetails.ticketDetailsPageVerification(
+						InitializePropertyFile.property.getProperty("SC_08_Page_Title_03"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 6)
+	public void TC_06_realImageVerification() {
+
+		try {
+			RandomInputPage random = new RandomInputPage(driver);
+			String randomUser = random.selectRandomUsername();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.imageVerfication();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 7)
 	public void TC_07_contractVerification() {
 
-		RandomInputPage random = new RandomInputPage(driver);
-		String randomUser = random.selectRandomUsername();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myAsset = new MyAssetsPage(driver);
-		myAsset.contractDetailsVerification();
+		try {
+			RandomInputPage random = new RandomInputPage(driver);
+			String randomUser = random.selectRandomUsername();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.contractDetailsVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-//	@Test(priority = 8, invocationCount = 1)
+	@Test(priority = 8)
 	public void TC_08_locationVerification() {
 
-		RandomInputPage random = new RandomInputPage(driver);
-		String randomUser = random.selectRandomUsername();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myAsset = new MyAssetsPage(driver);
-		myAsset.locationVerfication();
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.locationVerfication();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

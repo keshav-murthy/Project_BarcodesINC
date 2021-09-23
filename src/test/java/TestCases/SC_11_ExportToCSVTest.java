@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import Pages.ExportPage;
@@ -14,7 +15,9 @@ import Pages.LoginPage;
 import Pages.MyAssetsAndServicesPage;
 import Pages.ReportDashboardPage;
 import commons.InitializePropertyFile;
+import listener.ListenerTest;
 
+@Listeners(ListenerTest.class)
 public class SC_11_ExportToCSVTest {
 
 	public static String username = "rwalter+1st@barcodesinc.com";
@@ -33,54 +36,69 @@ public class SC_11_ExportToCSVTest {
 	@Test(priority = 1)
 	public void TC_01_dashboardExport() throws IOException {
 
-		ExportPage export = new ExportPage(driver);
-		export.againHittingUrl();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(username, password);
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		ReportDashboardPage dashboard = new ReportDashboardPage(driver);
-		dashboard.clickOnViewReport(Widget_Title);
-		export.downloadingFile();
+		try {
+			export.againHittingUrl();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(username, password);
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			ReportDashboardPage dashboard = new ReportDashboardPage(driver);
+			dashboard.clickOnViewReport(Widget_Title);
+			export.downloadingFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 2)
 	public void TC_02_myTicketsExport() throws IOException {
 
-		export.againHittingUrl();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(username, password);
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		export.downloadingFile();
+		try {
+			export.againHittingUrl();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(username, password);
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			export.downloadingFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 3)
 	public void TC_03_myAssetsExport() throws IOException {
 
-		export.againHittingUrl();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(username, password);
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		export.downloadingFile();
+		try {
+			export.againHittingUrl();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(username, password);
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			export.downloadingFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 4)
 	public void TC_04_myContractsExport() throws InterruptedException, IOException {
 
-		export.againHittingUrl();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(username, password);
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyContracts();
-		export.downloadingFile();
+		try {
+			export.againHittingUrl();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(username, password);
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			export.downloadingFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@AfterMethod

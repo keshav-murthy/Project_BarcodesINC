@@ -16,9 +16,12 @@ public class AddAssetPage extends BasePage {
 	@FindBy(xpath = "//input[@type='select-one']")
 	WebElement searchProduct;
 
-	@FindBy(xpath = "//div[contains(text(),'DAT536070-K03 ( Model: 123 Easy ID)')]")
-	WebElement selectProduct;
+//	@FindBy(xpath = "//div[contains(text(),'DAT536070-K03 ( Model: 123 Easy ID)')]")
+//	WebElement selectProduct;
 
+	@FindBy(xpath = "//div[@class='selectize-dropdown-content']//div[5]")
+	WebElement selectProduct;
+	
 	@FindBy(xpath = "//input[@id='serial_no']")
 	WebElement assetSerialNumber;
 
@@ -47,24 +50,24 @@ public class AddAssetPage extends BasePage {
 //		searchProduct.sendKeys(Keys.DOWN);
 //		searchProduct.sendKeys(Keys.DOWN);
 //		searchProduct.sendKeys(Keys.DOWN);
-		searchProduct.sendKeys(Keys.ENTER);
+//		searchProduct.sendKeys(Keys.ENTER);
 		lOGGER.info("Enter search product");
 
 		wait.forElementToBeVisible(assetSerialNumber);
 		sendKeys(assetSerialNumber, random);
 		lOGGER.info("Enter Asset Serial Number");
 
-		wait.forElementToBeVisible(model);
-		sendKeys(model, "Automation Testing");
-		lOGGER.info("Enter Model");
+//		wait.forElementToBeVisible(model);
+//		sendKeys(model, "Automation Testing");
+//		lOGGER.info("Enter Model");
+//
+//		wait.forElementToBeVisible(manufacturer);
+//		sendKeys(manufacturer, "Panasonic");
+//		lOGGER.info("Enter a Manufacturer");
 
-		wait.forElementToBeVisible(manufacturer);
-		sendKeys(manufacturer, "Panasonic");
-		lOGGER.info("Enter a Manufacturer");
-
-//		wait.forElementToBeVisible(save);
-//		click(save);
-//		lOGGER.info("clicking on Save button");
+		wait.forElementToBeVisible(save);
+		click(save);
+		lOGGER.info("clicking on Save button");
 	}
 
 	public void existingSerialNumberAssetCreation(String random) {

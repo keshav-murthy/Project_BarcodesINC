@@ -16,25 +16,29 @@ public class SC_10_AddContractTest extends TestBase {
 
 	@BeforeMethod
 	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
 	@Test()
 	public void TC_01_addContract() {
 
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myAsset = new MyAssetsPage(driver);
-		String randomAsset = myAsset.selectRandomAsset();
-		assetsandservices.clickOnMyContracts();
-		MyContractsPage mycontracts = new MyContractsPage(driver);
-		mycontracts.clickOnAddContract();
-		AddContractPage addcontract = new AddContractPage(driver);
-		addcontract.addingContractProcedure(randomAsset);
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			String randomAsset = myAsset.selectRandomAsset();
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.clickOnAddContract();
+			AddContractPage addcontract = new AddContractPage(driver);
+			addcontract.addingContractProcedure(randomAsset);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -11,7 +11,7 @@ import commons.BasePage;
 
 public class TicketDetailsPage extends BasePage {
 
-	@FindBy(xpath = "//span//strong")
+	@FindBy(xpath = "//li[@class='item Ticket Details']//strong")
 	WebElement ticketDetailsHeading;
 
 	@FindBy(xpath = "//h2")

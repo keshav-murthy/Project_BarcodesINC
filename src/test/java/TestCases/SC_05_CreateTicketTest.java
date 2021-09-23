@@ -24,12 +24,13 @@ public class SC_05_CreateTicketTest extends TestBase {
 	@BeforeMethod
 	public void openPage() {
 
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
 	@Test(priority = 1)
 	public void TC_01_createTicket() {
 
+		try {
 		LoginPage loginpage = new LoginPage(driver);
 		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
 				InitializePropertyFile.property.getProperty("password"));
@@ -48,6 +49,9 @@ public class SC_05_CreateTicketTest extends TestBase {
 		myTickets.clickTicket(randomAsset);
 		TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
 		ticketID = ticketdetails.getTicketDetails();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 //	@Test(priority = 2)
