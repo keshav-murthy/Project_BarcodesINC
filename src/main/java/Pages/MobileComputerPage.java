@@ -45,7 +45,7 @@ public class MobileComputerPage extends BasePage {
 		for (int i = 0; i < products.size(); i++) {
 			scrollToElementView(products.get(i));
 			wait.forElementToBeVisible(products.get(i));
-			Assert.assertTrue(products.get(i).isDisplayed()==false);
+			Assert.assertTrue(products.get(i).isDisplayed()==true);
 		}
 	}
 }

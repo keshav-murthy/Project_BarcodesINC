@@ -7,6 +7,7 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,6 +28,18 @@ public class ReportDashboardPage extends BasePage {
 
 	@FindBy(xpath = "//div[@class='widget-title']//h3[contains(text(),'Tickets')]")
 	List<WebElement> ticketWidgetTitles;
+
+	@FindBy(xpath = "//tbody//td[text()='Assets Under TSP Contract']//following-sibling::td")
+	WebElement assetunderTSPContracts;
+
+	@FindBy(xpath = "//tbody//td[text()='Assets Under OEM Contract']//following-sibling::td")
+	WebElement assetunderOEMContracts;
+
+	@FindBy(xpath = "//li[@data-id='assetundertspcontract']//a")
+	WebElement supportContractReport;
+
+	@FindBy(xpath = "//li[@data-id='assetunderoemcontract']//a")
+	WebElement OEMContractReport;
 
 	private static final Logger lOGGER = LogManager.getLogger(ReportDashboardPage.class.getName());
 
@@ -90,5 +103,37 @@ public class ReportDashboardPage extends BasePage {
 //			System.out.println("The Widget title after ignoring is :------" + randomWidget);
 //		}
 		return randomWidget;
+	}
+
+	public void clickOnSupportContractReport() {
+
+		wait.forElementToBeVisible(supportContractReport);
+		js.clickElement(supportContractReport);
+		lOGGER.info("Clicking on view report of Assets under support Contract");
+	}
+
+	public void clickOnOEMContractReport() {
+
+		wait.forElementToBeVisible(OEMContractReport);
+		js.clickElement(OEMContractReport);
+		lOGGER.info("Clicking on view report of Assets under OEM Contract");
+	}
+
+	public void verifyAssetsDisplayForTSP(int expected) {
+
+		String totalcontracts = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerHTML;",
+				assetunderTSPContracts);
+		int actual = Integer.parseInt(totalcontracts);
+		Assert.assertEquals(actual, expected);
+		lOGGER.info("Verifing total assets under TSP contract are displayed on report page");
+	}
+
+	public void verifyAssetsDisplayForOEM(int expected) {
+
+		String totalcontracts = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerHTML;",
+				assetunderOEMContracts);
+		int actual = Integer.parseInt(totalcontracts);
+		Assert.assertEquals(actual, expected);
+		lOGGER.info("Verifing total assets under OEM contract are displayed on report page");
 	}
 }

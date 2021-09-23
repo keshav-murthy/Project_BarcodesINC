@@ -21,7 +21,7 @@ public class SC_04_TicketDetailTest extends TestBase {
 	@BeforeMethod
 	public void openPage() {
 
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
 	@Test(priority = 1)

@@ -15,99 +15,118 @@ public class SC_03_MyTicketsTest extends TestBase {
 
 	@BeforeMethod
 	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
 	@Test(priority = 1)
 	public void TC_01_pageRenders() {
 
-
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.myTicketPageVerification(InitializePropertyFile.property.getProperty("SC_03_Page_Title"));
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.myTicketPageVerification(InitializePropertyFile.property.getProperty("SC_03_Page_Title"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 2)
 	public void TC_02_verifySearch() {
 
-
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.validSearchVerification();
-		myTickets.invalidSearchVerification();
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.validSearchVerification();
+			myTickets.invalidSearchVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 3)
 	public void TC_03_sortingColumns() {
 
-
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.sortingVerification();
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.sortingVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 4)
 	public void TC_04_verifyPagination() {
 
-
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.paginationVerification();
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.paginationVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 5)
 	public void TC_05_createTicketPageVerification() {
 
-
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.clickOnCreateTicket();
-		myTickets.createTicketPageVerification(
-				InitializePropertyFile.property.getProperty("SC_03_Create_Ticket_Page_Title"));
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.clickOnCreateTicket();
+			myTickets.createTicketPageVerification(
+					InitializePropertyFile.property.getProperty("SC_03_Create_Ticket_Page_Title"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test(priority = 6)
 	public void TC_06_blankColumnVerification() {
 
-		RandomInputPage random = new RandomInputPage(driver);
-		String randomUser = random.selectRandomUsername();
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.blankColumnVerification(randomUser);
+		try {
+			RandomInputPage random = new RandomInputPage(driver);
+			String randomUser = random.selectRandomUsername();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(randomUser, InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.blankColumnVerification(randomUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

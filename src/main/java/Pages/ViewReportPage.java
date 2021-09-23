@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,8 +27,14 @@ public class ViewReportPage extends BasePage {
 	protected static ArrayList<String> obtainedList = new ArrayList<String>();
 	protected static ArrayList<String> sortedList = new ArrayList<String>();
 
+	@FindBy(xpath = "//div[@class='breadcrumbs']//strong")
+	WebElement breadcrumbTitle;
+
 	@FindBy(xpath = "//h1//span")
-	WebElement reportHeader;
+	WebElement reportHeader1;
+
+	@FindBy(xpath = "//div[@class='box-head page-sub-title']")
+	WebElement reportHeader2;
 
 	@FindBy(xpath = "//input[@id='from_date']")
 	WebElement fromDate;
@@ -113,8 +120,20 @@ public class ViewReportPage extends BasePage {
 	@FindBy(xpath = "//table//tr//td[6]")
 	List<WebElement> fourthColumnData;
 
+	@FindBy(xpath = "//table//tr//td[7]")
+	List<WebElement> fifthColumnData;
+
+	@FindBy(xpath = "//tbody//tr")
+	List<WebElement> tableLength;
+
 	@FindBy(xpath = "//select[@name='ticket-table_length']")
 	WebElement tableLengthDropDown;
+
+	@FindBy(xpath = "//div[@class='sorting-block']")
+	WebElement contractTypeDropDown;
+
+	@FindBy(xpath = "//input[@type='checkbox']")
+	List<WebElement> contractTypes;
 
 	private static final Logger lOGGER = LogManager.getLogger(ViewReportPage.class.getName());
 
@@ -124,10 +143,15 @@ public class ViewReportPage extends BasePage {
 
 	public void verifyReportDetails(String expected) {
 
-		wait.forElementToBeVisible(reportHeader);
-		String actual = reportHeader.getText();
-		Assert.assertTrue(expected.contains(actual));
-
+		try {
+			wait.forElementToBeVisible(reportHeader1);
+			String actual = reportHeader1.getText();
+			Assert.assertTrue(expected.contains(actual));
+		} catch (TimeoutException e) {
+			wait.forElementToBeVisible(reportHeader1);
+			String actual = reportHeader1.getText();
+			Assert.assertTrue(expected.contains(actual));
+		}
 		lOGGER.info("Verifying the report details page Heading");
 	}
 
@@ -360,7 +384,11 @@ public class ViewReportPage extends BasePage {
 
 	public void blankRepairIDVerification(String widgetTitle) {
 
-		System.out.println("The Ticket Widget title selected is :------" + reportHeader.getText());
+		try {
+			System.out.println("The Ticket Widget title selected is :------" + reportHeader1.getText());
+		} catch (TimeoutException e) {
+			System.out.println("The Ticket Widget title selected is :------" + reportHeader2.getText());
+		}
 		int count = 0;
 		wait.forPage();
 		wait.forElementToBeVisible(tableLengthDropDown);
@@ -475,5 +503,51 @@ public class ViewReportPage extends BasePage {
 		Assert.assertTrue(sortedList.containsAll(obtainedList));
 		sortedList.clear();
 		obtainedList.clear();
+	}
+
+	public int getTotalcontracts() {
+
+		wait.forElementToBeVisible(tableLengthDropDown);
+		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		wait.forPage();
+		lOGGER.info("Fetching the total assets under TSP contracts from the table");
+		wait.forElementToBeVisible(tableLength.get(0));
+		return tableLength.size();
+	}
+
+	public void verifyBreadcrumbTrail() {
+
+		wait.forElementToBeVisible(breadcrumbTitle);
+		wait.forElementToBeVisible(reportHeader2);
+		Assert.assertEquals(breadcrumbTitle.getText(), reportHeader2.getText());
+	}
+
+	public void verifyContractColumn() {
+
+		wait.forElementToBeVisible(fourthColumn);
+		click(fourthColumn);
+		contractTypeData();
+		wait.forElementToBeVisible(contractTypeDropDown);
+		click(contractTypeDropDown);
+		wait.forElementToBeVisible(contractTypes.get(0));
+		click(contractTypes.get(0));
+		contractTypeData();
+		lOGGER.info("Verifying the data to be sorted and filtered out in contract type column");
+	}
+
+	public void contractTypeData() {
+
+		for (int i = 0; i < fourthColumnData.size(); i++)
+			Assert.assertEquals(fourthColumnData.get(i).getText(), "OEM Service Contracts");
+	}
+
+	public void verifyLocation() {
+
+		for (int i = 0; i < fifthColumnData.size(); i++) {
+			wait.forElementToBeVisible(fifthColumnData.get(i));
+			if (fifthColumnData.get(i).getText() != "-NA-")
+				click(fifthColumnData.get(i));
+		}
+		System.out.println("There are no locations assigned to the contracts");
 	}
 }

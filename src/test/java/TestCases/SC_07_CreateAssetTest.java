@@ -23,50 +23,58 @@ public class SC_07_CreateAssetTest extends TestBase {
 
 	@BeforeMethod
 	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("url"));
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 	}
 
 	@Test(priority = 1)
 	public void TC_01_existingSerialNumber() {
 
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myAsset = new MyAssetsPage(driver);
-		randomAsset = myAsset.selectRandomAsset();
-		myAsset.clickOnAddAsset();
-		AddAssetPage addAsset = new AddAssetPage(driver);
-		addAsset.addingAssetProcedure(randomAsset);
-		myAsset.enterSearchField(randomAsset);
-		myAsset.verifyAsset(randomAsset);
-		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-		assetdetails.fetchAssetDetails(randomAsset);
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			randomAsset = myAsset.selectRandomAsset();
+			myAsset.clickOnAddAsset();
+			AddAssetPage addAsset = new AddAssetPage(driver);
+			addAsset.addingAssetProcedure(randomAsset);
+			myAsset.enterSearchField(randomAsset);
+			myAsset.verifyAsset(randomAsset);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.fetchAssetDetails(randomAsset);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-//	@Test(priority = 2)
+	@Test(priority = 2)
 	public void TC_02_newSerialNumber() {
 
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myassets = new MyAssetsPage(driver);
-		myassets.clickOnAddAsset();
-		RandomInputPage randomInput = new RandomInputPage(driver);
-		random = randomInput.selectRandomInput();
-		AddAssetPage addassets = new AddAssetPage(driver);
-		addassets.addingAssetProcedure(random);
-		myassets.enterSearchField(random);
-		myassets.verifyAsset(random);
-		AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
-		assetdetails.fetchAssetDetails(random);
+		try {
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myassets = new MyAssetsPage(driver);
+			myassets.clickOnAddAsset();
+			RandomInputPage randomInput = new RandomInputPage(driver);
+			random = randomInput.selectRandomInput();
+			AddAssetPage addassets = new AddAssetPage(driver);
+			addassets.addingAssetProcedure(random);
+			myassets.enterSearchField(random);
+			myassets.verifyAsset(random);
+			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
+			assetdetails.fetchAssetDetails(random);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 //	@Test(priority = 3,,dependsOnMethods="TC_02_newSerialNumber")

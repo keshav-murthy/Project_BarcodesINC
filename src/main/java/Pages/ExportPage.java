@@ -15,6 +15,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
 import commons.BasePage;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class ExportPage extends BasePage {
 
@@ -30,7 +31,7 @@ public class ExportPage extends BasePage {
 		folder = new File("downloads");
 		folder.mkdir();
 
-		System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 
 		Map<String, Object> prefs = new HashMap<String, Object>();
@@ -65,49 +66,11 @@ public class ExportPage extends BasePage {
 		for (File file : listOfFiles) {
 			Assert.assertTrue(file.length() > 0);
 		}
-//			InputStream is = new BufferedInputStream(new FileInputStream(file));
-//			try {
-//				byte[] c = new byte[1024];
-//				int count = 0;
-//				int readChars = 0;
-//				boolean empty = true;
-//				while ((readChars = is.read(c)) != -1) {
-//					empty = false;
-//					for (int i = 0; i < readChars; ++i) {
-//						if (c[i] == ',') {
-//							++count;
-//						}
-//					}
-//				}
-//				System.out.println((count == 0 && !empty) ? 1 : count);
-//			} finally {
-//				is.close();
-//			}
-//			}
-//		}
 
 		for (File file : folder.listFiles())
 			file.delete();
 		folder.delete();
 		if (folder.isDirectory() == true)
 			folder.delete();
-//
-//	public void createTXTFile() throws IOException {
-//
-//		folder.createNewFile();
-//	}
-
-//	public void convertFile(File file) {
-//
-//		try (BufferedReader br = new BufferedReader(new FileReader(file)); Writer writer = new FileWriter(file)) {
-//			String line;
-//			while ((line = br.readLine()) != null) {
-//				writer.append(line.replaceAll(",", "[|]"));
-//				writer.append("\n");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 	}
 }

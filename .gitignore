@@ -1,12 +1,3 @@
-.DS_Store
-.idea/
-*.iml
-*.iws
-log/
-target/
-logs/
-.idea
-.settings
-.classpath
-.project
-debug.log
+test-output
+screenshots
+target

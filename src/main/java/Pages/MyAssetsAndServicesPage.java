@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import commons.BasePage;
@@ -11,6 +12,7 @@ import commons.BasePage;
 public class MyAssetsAndServicesPage extends BasePage {
 
 	String pageTitle = driver.getTitle();
+	Actions action = new Actions(driver);
 
 	@FindBy(xpath = "//button[@name='agree']")
 	WebElement agreeButton;
@@ -32,6 +34,12 @@ public class MyAssetsAndServicesPage extends BasePage {
 
 	@FindBy(xpath = "//p[@class='rma-link tickets']//span[contains(text(),'Create')]")
 	WebElement createTicket;
+
+	@FindBy(xpath = "//p[@class='rma-link admin-panel']//span[contains(text(),'Admin')]")
+	WebElement adminPanel;
+
+	@FindBy(xpath = "//span//a[@class='locations']")
+	WebElement locations;
 
 	private static final Logger lOGGER = LogManager.getLogger(MyAssetsAndServicesPage.class.getName());
 
@@ -86,5 +94,13 @@ public class MyAssetsAndServicesPage extends BasePage {
 		wait.forElementToBeVisible(createTicket);
 		createTicket.click();
 		lOGGER.info("Clicking on Create Ticket Page Button");
+	}
+
+	public void clickOnLocation() {
+
+		wait.forElementToBeVisible(adminPanel);
+		action.moveToElement(adminPanel).perform();
+		js.clickElement(locations);
+		lOGGER.info("Clicking on Location Button in Admin Panel");
 	}
 }

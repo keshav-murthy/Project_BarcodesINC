@@ -213,7 +213,33 @@ public abstract class BasePage {
 		wait.forElementToBeVisible(element.get(randomNumberIndex));
 		WebElement randomElement = element.get(randomNumberIndex);
 		System.out.println("The model selected is :------" + randomElement.getText());
-
 		return randomElement;
+	}
+
+	public String getBackgroundColor(WebElement element) {
+
+		wait.forElementToBeVisible(element);
+		String color = element.getCssValue("background-color");
+		return color.substring(color.indexOf("(") + 1, color.lastIndexOf(","));
+	}
+
+	public String convertRGBToHex(String color) {
+
+		int r = Integer.parseInt(color.substring(0, color.indexOf(",")));
+		int g = Integer.parseInt(color.substring(color.indexOf(",") + 2, color.lastIndexOf(",")));
+		int b = Integer.parseInt(color.substring(color.lastIndexOf(",") + 2));
+		return String.format("#%02X%02X%02X", r, g, b);
+	}
+	
+	public String genRandomString(int length) {
+		String SALTCHARS = "1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < length) { // length of the random string.
+			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			salt.append(SALTCHARS.charAt(index));
+		}
+		String saltStr = salt.toString();
+		return saltStr;
 	}
 }

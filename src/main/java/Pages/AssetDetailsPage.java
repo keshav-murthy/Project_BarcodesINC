@@ -18,16 +18,16 @@ public class AssetDetailsPage extends BasePage {
 
 	protected static String firstName;
 
-	@FindBy(xpath = "//a[contains(text(),'Contracts')]")
+	@FindBy(xpath = "//a[contains(text(),'Contracts') and @id='tab4_title']")
 	WebElement contracts;
 
-	@FindBy(xpath = "//a[contains(text(),'Tickets')]")
+	@FindBy(xpath = "//a[contains(text(),'Tickets') and @id='tab3_title']")
 	WebElement tickets;
 
 	@FindBy(xpath = "//div[@class='item-details-left-holder']//img")
 	WebElement realImage;
 
-	@FindBy(xpath = "//label[text()='Last Address Shipped To']//following-sibling::span")
+	@FindBy(xpath = "//label[text()='Last Known Address']//following-sibling::span")
 	WebElement locationDetails;
 
 	@FindBy(xpath = "//input[@value='Add Contract']")
@@ -103,6 +103,7 @@ public class AssetDetailsPage extends BasePage {
 		wait.forElementToBeVisible(contracts);
 		contracts.click();
 		contracts.sendKeys(Keys.ENTER);
+//		clickOnOKAlert();
 		wait.forElementToBeVisible(addContract);
 		String url = addContract.getAttribute("onClick");
 		String actualURL = url.substring(url.indexOf("https"), url.lastIndexOf("t") + 1);
@@ -152,6 +153,7 @@ public class AssetDetailsPage extends BasePage {
 		wait.forElementToBeVisible(contracts);
 		contracts.click();
 		contracts.sendKeys(Keys.ENTER);
+		clickOnOKAlert();
 		try {
 			lOGGER.info("Clicking on name of first contract from the list");
 			firstName = firstContractName.getText();

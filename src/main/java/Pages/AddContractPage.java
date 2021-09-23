@@ -112,9 +112,9 @@ public class AddContractPage extends BasePage {
 		click(send);
 		lOGGER.info("clicking on Send button");
 
-//		wait.forElementToBeVisible(dashboard);
-//		click(dashboard);
-//		lOGGER.info("clicking on dashboard button");
+		wait.forElementToBeVisible(dashboard);
+		click(dashboard);
+		lOGGER.info("clicking on dashboard button");
 	}
 
 	public void addContractPageVerification(String expected) {

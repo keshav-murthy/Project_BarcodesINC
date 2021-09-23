@@ -70,6 +70,9 @@ public class MyAssetsPage extends BasePage {
 	@FindBy(xpath = "//tbody//tr//td[7]")
 	List<WebElement> OEMContract;
 
+	@FindBy(xpath = "//label[text()='OEM Contract']//following-sibling::span")
+	WebElement OEMContractDetails;
+
 	@FindBy(xpath = "//tbody//tr//td[8]")
 	List<WebElement> trueSupportContract;
 
@@ -348,8 +351,10 @@ public class MyAssetsPage extends BasePage {
 			int randomNumberIndex = r.nextInt(assetDataList.size());
 			wait.forPage();
 			js.clickElement(assetDataList.get(randomNumberIndex));
-			AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
-			assetdetail.getFirstContractName();
+//			AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
+//			assetdetail.getFirstContractName();
+			wait.forElementToBeVisible(OEMContractDetails);
+			Assert.assertTrue(OEMContractDetails.isDisplayed() == true);
 			assetDataList.clear();
 		}
 	}
@@ -363,7 +368,7 @@ public class MyAssetsPage extends BasePage {
 		if (location.size() > 0) {
 			int randomNumberIndex = r.nextInt(location.size());
 			locationData = location.get(randomNumberIndex).getText();
-			System.out.println("Selected location is ----------> " + locationData+"----->");
+			System.out.println("Selected location is ----------> " + locationData + "----->");
 			js.clickElement(location.get(randomNumberIndex));
 			AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
 			assetdetail.locationValidation(locationData);
