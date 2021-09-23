@@ -1,0 +1,15 @@
+TestCases\SC_02_DashboardTest.class
+TestCases\SC_11_ExportToCSVTest.class
+TestCases\SC_03_MyTicketsTest.class
+TestCases\SC_12_ProductAndModelVerficationTest.class
+TestCases\SC_09_MyContractsTest.class
+TestCases\SC_05_CreateTicketTest.class
+TestCases\SC_08_AssetDetailScreenTest.class
+TestCases\SC_15_EcommerceTest.class
+TestCases\SC_01_LoginTest.class
+TestCases\SC_10_AddContractTest.class
+TestCases\SC_13_AdminPanelTest.class
+TestCases\SC_04_TicketDetailTest.class
+TestCases\SC_06_MyAssetsTest.class
+TestCases\SC_14_Sprint12_ServicePortalTrueViewTest.class
+TestCases\SC_07_CreateAssetTest.class

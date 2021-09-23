@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2021-09-23T13:20:03 IST" name="Barcodes_TestNG session" finished-at="2021-09-23T13:20:33 IST" duration-ms="30482">
+    <groups>
+    </groups>
+    <test started-at="2021-09-23T13:20:03 IST" name="Login" finished-at="2021-09-23T13:20:33 IST" duration-ms="30482">
+      <class name="TestCases.SC_01_LoginTest">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:TestCases.SC_01_LoginTest@593e824f]" started-at="2021-09-23T13:20:03 IST" name="setUp" finished-at="2021-09-23T13:20:07 IST" duration-ms="3752" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="openPage()[pri:0, instance:TestCases.SC_01_LoginTest@593e824f]" started-at="2021-09-23T13:20:07 IST" name="openPage" finished-at="2021-09-23T13:20:22 IST" duration-ms="15638" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openPage -->
+        <test-method signature="TC_01_servicePortal()[pri:0, instance:TestCases.SC_01_LoginTest@593e824f]" started-at="2021-09-23T13:20:22 IST" name="TC_01_servicePortal" finished-at="2021-09-23T13:20:33 IST" duration-ms="10200" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TC_01_servicePortal -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:TestCases.SC_01_LoginTest@593e824f]" started-at="2021-09-23T13:20:33 IST" name="tearDown" finished-at="2021-09-23T13:20:33 IST" duration-ms="803" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- TestCases.SC_01_LoginTest -->
+    </test> <!-- Login -->
+  </suite> <!-- Barcodes_TestNG session -->
+</testng-results>
