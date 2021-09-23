@@ -12,7 +12,7 @@
 		</classes>
 	</test>
 
-	<!--<test name="Dashboard">
+	<test name="Dashboard">
 		<classes>
 			<class name="TestCases.SC_02_DashboardTest" />
 		</classes>
@@ -22,8 +22,8 @@
 			<class name="TestCases.SC_03_MyTicketsTest" />
 		</classes>
 	</test>
-	 <test name="Ticket Detail"> <classes> <class name="TestCases.SC_04_TicketDetailTest" 
-		/> </classes> </test> 
+	<!-- <test name="Ticket Detail"> <classes> <class name="TestCases.SC_04_TicketDetailTest" 
+		/> </classes> </test> -->
 	<test name="Create Ticket">
 		<classes>
 			<class name="TestCases.SC_05_CreateTicketTest" />
@@ -79,5 +79,5 @@
 		<classes>
 			<class name="TestCases.SC_15_EcommerceTest" />
 		</classes>
-	</test>-->
+	</test>
 </suite>
