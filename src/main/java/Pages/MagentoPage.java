@@ -179,6 +179,8 @@ public class MagentoPage extends BasePage {
 //		wait.forElementToBeVisible(alertMessage);
 //		Assert.assertTrue(alertMessage.getText().equals("You saved the customer group."));
 
+		pause(10000);
+		wait.forElementToBeVisible(bannerID.get(0));
 		int randomNumberIndex = random.nextInt(bannerID.size());
 		wait.forElementToBeVisible(bannerID.get(randomNumberIndex));
 		String randomID = bannerID.get(randomNumberIndex).getText();

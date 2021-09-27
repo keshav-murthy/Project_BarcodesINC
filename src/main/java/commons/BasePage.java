@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -128,12 +129,24 @@ public abstract class BasePage {
 		js.executeScript("arguments[0].value='" + val + "';", element);
 
 	}
+	
+	/* This method will enter value in the input textbox */
+	public static void javaScriptSendValue(WebElement element, Keys val) {
+		js.executeScript("arguments[0].value='" + val + "';", element);
+
+	}
 
 	/* This method will click on the web element using javascriptexecutor */
 	public static void javaScriptClick(WebElement element) {
 		js.executeScript("arguments[0].click();", element);
 
 	}
+	
+	/* This method will change the attribute value of an element using javascriptexecutor */
+//	public static void javaScriptModifyAttributeValue(WebElement element,String oldValue,String newValue) {
+//		js.executeScript("arguments[0].click();", element);
+//		js.executeScript(element.setAttribute("'+oldValue+','newValue'););
+//	}
 
 	public static void actionsEnter() {
 		js.actionEnter();

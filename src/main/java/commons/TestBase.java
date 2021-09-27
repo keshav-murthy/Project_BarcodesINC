@@ -25,7 +25,6 @@ import listener.ListenerTest;
 public class TestBase {
 
 	public WebDriver driver;
-//	public  File folder=new File("downloads");
 	
 	@BeforeMethod
 	public void setUp() throws FileNotFoundException, IOException {
@@ -34,7 +33,7 @@ public class TestBase {
 		InitializePropertyFile.loadPropertyFile();
 	}
 
-	@AfterMethod
+//	@AfterMethod
 	public void tearDown() {
 		if (driver != null) {
 			// driver.close();
