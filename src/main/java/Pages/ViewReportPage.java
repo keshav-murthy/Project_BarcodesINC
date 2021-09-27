@@ -1,20 +1,19 @@
 package Pages;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
@@ -251,135 +250,105 @@ public class ViewReportPage extends BasePage {
 		}
 	}
 
-//	public void sortingVerification() {
-//
-//		wait.forElementToBeVisible(manufacturer);
-//		click(manufacturer);
-//		wait.forElementToBeVisible(manufacturer);
-//		click(manufacturer);
-//		lOGGER.info("Sorting the Manufacturer column in Descending order");
-//		printTableContent();
-//
-//		wait.forElementToBeVisible(model);
-//		click(model);
-//		wait.forElementToBeVisible(model);
-//		click(model);
-//		lOGGER.info("Sorting the Model column in Descending order");
-//		printTableContent();
-//
-//		wait.forElementToBeVisible(type);
-//		click(type);
-//		wait.forElementToBeVisible(type);
-//		click(type);
-//		lOGGER.info("Sorting the type column in Descending order");
-//		printTableContent();
-//
-//		wait.forElementToBeVisible(lastUpdated);
-//		click(lastUpdated);
-//		lOGGER.info("Sorting the Last Updated column in Ascending order");
-//		printTableContent();
-//	}
-
-	public void printTableContent() {
-
-		try {
-			while (emptyTable.isDisplayed() == true) {
-				System.out.println(emptyTable.getText());
-				break;
-			}
-		} catch (NoSuchElementException e) {
-			List<WebElement> content = table;
-			for (int i = 0; i < content.size(); i++) {
-				pause(500);
-//			for (int i = 0; i < firstColumnData.size(); i++) {
-//				obtainedList.add(firstColumnData.get(i).getText());
-//			}
-//			Assert.assertTrue(sortedList.equals(obtainedList));
-				System.out.println(
-						"displaying details of table after sorting of column :----" + content.get(i).getText());
-			}
-		}
-	}
-
 	public void dateRangeVerification(String startDate, String endDate) {
 
 		wait.forPage();
-		wait.forElementToBeVisible(fromDate);
-		javaScriptSendValue(fromDate, startDate);
-		lOGGER.info("Entering the starting date in date field");
-
-//		wait.forElementToBeVisible(fromDate);
-//		JavascriptExecutor js = ((JavascriptExecutor) driver);
-//		js.executeScript("arguments[0].setAttribute('value','" + startDate + "');", fromDate);
-//
-//		wait.forElementToBeVisible(toDate);
-//		js.executeScript("arguments[0].setAttribute('value','" + endDate + "');", toDate);
-
-		wait.forElementToBeVisible(toDate);
-		javaScriptSendValue(toDate, endDate);
-		lOGGER.info("Entering the ending date in date field");
-
-		wait.forElementToBeVisible(dateTable.get(0));
-		List<WebElement> dateContent = dateTable;
-		for (int i = 0; i < dateContent.size(); i++) {
-			System.out.println(
-					"displaying details of table after sorting of column :----" + dateContent.get(i).getText());
-		}
+		driver.navigate().to("https://www.barcodesinc.com/store/rma_assetmanagement/report/totalserviced?sdate="
+				+ startDate + "&todate=" + endDate + "");
+		wait.forPage();
+		click(lastUpdated);
+		wait.forPage();
+//		wait.forElementToBeVisible(dateTable.get(0));
+//		List<WebElement> dateContent = dateTable;
+//		for (int i = 0; i < dateContent.size(); i++) {
+//			System.out.println(
+//					"displaying details of table after sorting of column :----" + dateContent.get(i).getText());
+//		}
+		verifyDate();
 	}
 
-	public void settingDownloadPath() {
-		ChromeOptions options = new ChromeOptions();
-		HashMap<String, Object> chromePref = new HashMap<>();
-		chromePref.put("download.default_directory", "/Project_Barcodes");
-		options.setExperimentalOption("prefs", chromePref);
+	public void verifyDate() {
+
+		for (int i = 0; i < dateTable.size() - 1; i++) {
+			wait.forElementToBeVisible(dateTable.get(i));
+			String date1 = dateTable.get(i).getText();
+			String date2 = dateTable.get(i + 1).getText();
+
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+				Date parsedDate1 = dateFormat.parse(date1);
+				Date parsedDate2 = dateFormat.parse(date2);
+				int result = parsedDate1.compareTo(parsedDate2);
+//				System.out.println(parsedDate1);
+//				System.out.println(parsedDate2);
+//				System.out.println(result);
+				Assert.assertTrue(result <= 0);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		lOGGER.info("Verifying the dates in proper order");
+	}
+
+	public void verifyAscendingOrderSorting() {
+
+		wait.forPage();
+		for (int i = 0; i < table.size() - 1; i++) {
+			wait.forElementToBeVisible(table.get(i));
+			String data1 = table.get(i).getText().toUpperCase();
+			String data2 = table.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+//			System.out.println(data1);
+//			System.out.println(data2);
+//			System.out.println(result);
+			Assert.assertTrue(result <= 0);
+		}
+		lOGGER.info("Verifying the data in table to be sorted in Ascending order");
+	}
+
+	public void verifyDescendingOrderSorting() {
+
+		wait.forPage();
+		for (int i = 0; i < table.size() - 1; i++) {
+			wait.forElementToBeVisible(table.get(i));
+			String data1 = table.get(i).getText().toUpperCase();
+			String data2 = table.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+//			System.out.println(data1);
+//			System.out.println(data2);
+//			System.out.println(result);
+			Assert.assertTrue(result >= 0);
+		}
+		lOGGER.info("Verifying the data in table to be sorted in descending order");
 	}
 
 	public void sortingVerification() {
 
-//		wait.forElementToBeVisible(tableLengthDropDown);
-//		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
-
-//		pause(1000);
-//		firstColumnSortingVerification();
-//		pause(1000);
-//		secondColumnSortingVerification();
-//		pause(1000);
-//		thirdColumnSortingVerification();
-//		pause(1000);
-//		fourthColumnSortingVerification();
-
-		pause(1000);
 		wait.forElementToBeVisible(firstColumn);
 		click(firstColumn);
-		pause(1000);
 		wait.forElementToBeVisible(firstColumn);
 		click(firstColumn);
 		lOGGER.info("Sorting the " + firstColumn.getText() + " column in Descending order");
-		printTableContent();
+		verifyDescendingOrderSorting();
 
-		pause(1000);
 		wait.forElementToBeVisible(secondColumn);
 		click(secondColumn);
-		pause(1000);
 		wait.forElementToBeVisible(secondColumn);
 		click(secondColumn);
 		lOGGER.info("Sorting the " + secondColumn.getText() + " column in Descending order");
-		printTableContent();
+		verifyDescendingOrderSorting();
 
-		pause(1000);
-		wait.forElementToBeVisible(thirdColumn);
-		click(thirdColumn);
-		pause(1000);
 		wait.forElementToBeVisible(thirdColumn);
 		click(thirdColumn);
 		lOGGER.info("Sorting the " + thirdColumn.getText() + " column in Descending order");
-		printTableContent();
+		verifyAscendingOrderSorting();
 
-		pause(1000);
 		wait.forElementToBeVisible(fourthColumn);
 		click(fourthColumn);
 		lOGGER.info("Sorting the " + fourthColumn.getText() + " column in Ascending order");
-		printTableContent();
+		verifyAscendingOrderSorting();
 	}
 
 	public void blankRepairIDVerification(String widgetTitle) {
@@ -411,98 +380,6 @@ public class ViewReportPage extends BasePage {
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(emptyTable.getText());
 		}
-	}
-
-	public void firstColumnSortingVerification() {
-
-		for (int i = 0; i < firstColumnData.size(); i++) {
-//			wait.forElementToBeVisible(firstColumnData.get(i));
-			sortedList.add(firstColumnData.get(i).getText());
-		}
-		Collections.sort(sortedList);
-		Collections.reverse(sortedList);
-		wait.forElementToBeVisible(firstColumn);
-		click(firstColumn);
-		pause(1000);
-		wait.forElementToBeVisible(firstColumn);
-		click(firstColumn);
-		lOGGER.info("Sorting the " + firstColumn.getText() + " column in Descending order");
-		pause(500);
-		for (int i = 0; i < firstColumnData.size(); i++) {
-//			wait.forElementToBeVisible(firstColumnData.get(i));
-			obtainedList.add(firstColumnData.get(i).getText());
-		}
-		Assert.assertTrue(sortedList.containsAll(obtainedList));
-		sortedList.clear();
-		obtainedList.clear();
-	}
-
-	public void secondColumnSortingVerification() {
-
-		for (int i = 0; i < secondColumnData.size(); i++) {
-//			wait.forElementToBeVisible(secondColumnData.get(i));
-			sortedList.add(secondColumnData.get(i).getText());
-		}
-		Collections.sort(sortedList);
-		Collections.reverse(sortedList);
-		wait.forElementToBeVisible(secondColumn);
-		click(secondColumn);
-		pause(1000);
-		wait.forElementToBeVisible(secondColumn);
-		click(secondColumn);
-		lOGGER.info("Sorting the " + secondColumn.getText() + " column in Descending order");
-		pause(500);
-		for (int i = 0; i < secondColumnData.size(); i++) {
-//			wait.forElementToBeVisible(secondColumnData.get(i));
-			obtainedList.add(secondColumnData.get(i).getText());
-		}
-		Assert.assertTrue(sortedList.containsAll(obtainedList));
-		sortedList.clear();
-		obtainedList.clear();
-	}
-
-	public void thirdColumnSortingVerification() {
-
-		for (int i = 0; i < thirdColumnData.size(); i++) {
-//			wait.forElementToBeVisible(thirdColumnData.get(i));
-			sortedList.add(thirdColumnData.get(i).getText());
-		}
-		Collections.sort(sortedList);
-		Collections.reverse(sortedList);
-		wait.forElementToBeVisible(thirdColumn);
-		click(thirdColumn);
-		pause(1000);
-		wait.forElementToBeVisible(thirdColumn);
-		click(thirdColumn);
-		lOGGER.info("Sorting the " + thirdColumn.getText() + " column in Descending order");
-		pause(500);
-		for (int i = 0; i < thirdColumnData.size(); i++) {
-//			wait.forElementToBeVisible(thirdColumnData.get(i));
-			obtainedList.add(thirdColumnData.get(i).getText());
-		}
-		Assert.assertTrue(sortedList.containsAll(obtainedList));
-		sortedList.clear();
-		obtainedList.clear();
-	}
-
-	public void fourthColumnSortingVerification() {
-
-		for (int i = 0; i < fourthColumnData.size(); i++) {
-//			wait.forElementToBeVisible(fourthColumnData.get(i));
-			sortedList.add(fourthColumnData.get(i).getText());
-		}
-		Collections.sort(sortedList);
-		wait.forElementToBeVisible(fourthColumn);
-		click(fourthColumn);
-		lOGGER.info("Sorting the " + fourthColumn.getText() + " column in Ascending order");
-		pause(500);
-		for (int i = 0; i < fourthColumnData.size(); i++) {
-//			wait.forElementToBeVisible(fourthColumnData.get(i));
-			obtainedList.add(fourthColumnData.get(i).getText());
-		}
-		Assert.assertTrue(sortedList.containsAll(obtainedList));
-		sortedList.clear();
-		obtainedList.clear();
 	}
 
 	public int getTotalcontracts() {

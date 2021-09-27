@@ -6,13 +6,13 @@
 		<listener class-name="listener.ListenerTest" />
 	</listeners>
 
-	  <test name="Login">
+	<test name="Login">
 		<classes>
 			<class name="TestCases.SC_01_LoginTest" />
 		</classes>
 	</test>
 
-	<!-- <test name="Dashboard">
+	<test name="Dashboard">
 		<classes>
 			<class name="TestCases.SC_02_DashboardTest" />
 		</classes>
@@ -22,8 +22,8 @@
 			<class name="TestCases.SC_03_MyTicketsTest" />
 		</classes>
 	</test>
-	  <test name="Ticket Detail"> <classes> <class name="TestCases.SC_04_TicketDetailTest" 
-		/> </classes> </test> 
+	<!-- <test name="Ticket Detail"> <classes> <class name="TestCases.SC_04_TicketDetailTest" 
+		/> </classes> </test> -->
 	<test name="Create Ticket">
 		<classes>
 			<class name="TestCases.SC_05_CreateTicketTest" />
@@ -71,12 +71,13 @@
 	</test>
 	<test name="Service Portal TrueView Test">
 		<classes>
-			<class name="TestCases.SC_14_Sprint12_ServicePortalTrueViewTest" />
+			<class
+				name="TestCases.SC_14_Sprint12_ServicePortalTrueViewTest" />
 		</classes>
 	</test>
 	<test name="Ecommerce Test">
 		<classes>
 			<class name="TestCases.SC_15_EcommerceTest" />
 		</classes>
-	</test>-->
+	</test>
 </suite>

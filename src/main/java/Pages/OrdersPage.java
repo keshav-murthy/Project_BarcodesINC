@@ -110,6 +110,7 @@ public class OrdersPage extends BasePage {
 		action.moveToElement(reorder.get(randomNumberIndex)).perform();
 		String color = getBackgroundColor(reorder.get(randomNumberIndex));
 		color = convertRGBToHex(color);
+		System.out.println(color);
 		Assert.assertTrue(color.equalsIgnoreCase("#dc7416"));
 		lOGGER.info("Verifying the background color of reorder button turns to dark orange when mouse-hover");
 	}

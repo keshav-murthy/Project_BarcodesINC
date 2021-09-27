@@ -1,5 +1,8 @@
 package Pages;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -152,47 +155,88 @@ public class MyContractsPage extends BasePage {
 		wait.forElementToBeVisible(contractType);
 		click(contractType);
 		lOGGER.info("Sorting the Contract Type column in Descending order");
-		printTableContentOfText();
+		verifyDescendingOrderSorting();
 
+		driver.navigate().refresh();
+		wait.forPage();
 		wait.forElementToBeVisible(contractItem);
 		click(contractItem);
 		wait.forElementToBeVisible(contractItem);
 		click(contractItem);
 		lOGGER.info("Sorting the Contract Item column in Descending order");
-		printTableContentOfDate();
+		verifyDescendingOrderSorting();
 
+		driver.navigate().refresh();
+		wait.forPage();
 		wait.forElementToBeVisible(relatedAsset);
 		click(relatedAsset);
-		wait.forElementToBeVisible(relatedAsset);
-		click(relatedAsset);
-		lOGGER.info("Sorting the Related Asset column in Descending order");
-		printTableContentOfDate();
+		lOGGER.info("Sorting the Related Asset column in Ascending order");
+		verifyAscendingOrderSorting();
 
+		driver.navigate().refresh();
+		wait.forPage();
 		wait.forElementToBeVisible(expiryDate);
 		click(expiryDate);
 		lOGGER.info("Sorting the Expiry Date column in Ascending order");
-		printTableContentOfDate();
-
+		verifyDate();
 	}
 
-	public void printTableContentOfText() {
+	public void verifyDate() {
 
-		List<WebElement> contentText = textSorting;
-		for (int i = 0; i < contentText.size(); i++) {
-			pause(2000);
-			System.out.println(
-					"displaying details of table after sorting of column :----" + contentText.get(i).getText());
+		wait.forPage();
+		for (int i = 0; i < dateSorting.size() - 1; i++) {
+			wait.forElementToBeVisible(dateSorting.get(i));
+			String date1 = dateSorting.get(i).getText();
+			String date2 = dateSorting.get(i + 1).getText();
+
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+				Date parsedDate1 = dateFormat.parse(date1);
+				Date parsedDate2 = dateFormat.parse(date2);
+				int result = parsedDate1.compareTo(parsedDate2);
+				System.out.println(parsedDate1);
+				System.out.println(parsedDate2);
+				System.out.println(result);
+				Assert.assertTrue(result <= 0);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
+		lOGGER.info("Verifying the dates in proper order");
 	}
 
-	public void printTableContentOfDate() {
+	public void verifyAscendingOrderSorting() {
 
-		List<WebElement> contentDate = dateSorting;
-		for (int i = 0; i < contentDate.size(); i++) {
-			pause(2000);
-			System.out.println(
-					"displaying details of table after sorting of column :----" + contentDate.get(i).getText());
+		wait.forPage();
+		for (int i = 0; i < textSorting.size() - 1; i++) {
+			wait.forElementToBeVisible(textSorting.get(i));
+			String data1 = textSorting.get(i).getText().toUpperCase();
+			String data2 = textSorting.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+			System.out.println(data1);
+			System.out.println(data2);
+			System.out.println(result);
+			Assert.assertTrue(result <= 0);
 		}
+		lOGGER.info("Verifying the data in table to be sorted in Ascending order");
+	}
+
+	public void verifyDescendingOrderSorting() {
+
+		wait.forPage();
+		for (int i = 0; i < textSorting.size() - 1; i++) {
+			wait.forElementToBeVisible(textSorting.get(i));
+			String data1 = textSorting.get(i).getText().toUpperCase();
+			String data2 = textSorting.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+			System.out.println(data1);
+			System.out.println(data2);
+			System.out.println(result);
+			Assert.assertTrue(result >= 0);
+		}
+		lOGGER.info("Verifying the data in table to be sorted in descending order");
 	}
 
 	public void clickOnAddContract() {

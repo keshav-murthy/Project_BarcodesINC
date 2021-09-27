@@ -186,16 +186,6 @@ public class MyTicketsPage extends BasePage {
 
 	}
 
-//	public void invalidSearchVerification(String searchElement) {
-//
-//		wait.forElementToBeVisible(search);
-//		sendKeys(search, searchElement);
-//		lOGGER.info("Entering the required data in search field");
-//		wait.forElementToBeVisible(emptyTable);
-//		System.out.println(emptyTable.getText());
-//		lOGGER.info("Verifying search field with Invalid Serial Number");
-//	}
-
 	public void sortingVerification() {
 
 		wait.forElementToBeVisible(manufacturer);
@@ -203,47 +193,53 @@ public class MyTicketsPage extends BasePage {
 		wait.forElementToBeVisible(manufacturer);
 		click(manufacturer);
 		lOGGER.info("Sorting the Manufacturer column in Descending order");
-		printTableContentOfText();
+		verifyDescendingOrderSorting();
 
 		wait.forElementToBeVisible(model);
 		click(model);
 		wait.forElementToBeVisible(model);
 		click(model);
 		lOGGER.info("Sorting the Model column in Descending order");
-		printTableContentOfText();
+		verifyDescendingOrderSorting();
 
 		wait.forElementToBeVisible(type);
 		click(type);
-		wait.forElementToBeVisible(type);
-		click(type);
-		lOGGER.info("Sorting the type column in Descending order");
-		printTableContentOfText();
-
-		wait.forElementToBeVisible(lastUpdated);
-		click(lastUpdated);
-		lOGGER.info("Sorting the Last Updated column in Ascending order");
-		printTableContentOfDate();
-
+		lOGGER.info("Sorting the type column in Ascending order");
+		verifyAscendingOrderSorting();
 	}
 
-	public void printTableContentOfText() {
+	public void verifyAscendingOrderSorting() {
 
-		List<WebElement> contentText = textSorting;
-		for (int i = 0; i < contentText.size(); i++) {
-			pause(2000);
-			System.out.println(
-					"displaying details of table after sorting of column :----" + contentText.get(i).getText());
+		wait.forPage();
+		for (int i = 0; i < textSorting.size() - 1; i++) {
+			wait.forElementToBeVisible(textSorting.get(i));
+			String data1 = textSorting.get(i).getText().toUpperCase();
+			String data2 = textSorting.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+//			System.out.println(data1);
+//			System.out.println(data2);
+//			System.out.println(result);
+			Assert.assertTrue(result <= 0);
 		}
+		lOGGER.info("Verifying the data in table to be sorted in Ascending order");
 	}
 
-	public void printTableContentOfDate() {
+	public void verifyDescendingOrderSorting() {
 
-		List<WebElement> contentDate = dateSorting;
-		for (int i = 0; i < contentDate.size(); i++) {
-			pause(2000);
-			System.out.println(
-					"displaying details of table after sorting of column :----" + contentDate.get(i).getText());
+		wait.forPage();
+		for (int i = 0; i < textSorting.size() - 1; i++) {
+			wait.forElementToBeVisible(textSorting.get(i));
+			String data1 = textSorting.get(i).getText().toUpperCase();
+			String data2 = textSorting.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+//			System.out.println(data1);
+//			System.out.println(data2);
+//			System.out.println(result);
+			Assert.assertTrue(result >= 0);
 		}
+		lOGGER.info("Verifying the data in table to be sorted in descending order");
 	}
 
 	public void paginationVerification() {

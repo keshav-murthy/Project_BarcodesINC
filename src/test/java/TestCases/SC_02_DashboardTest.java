@@ -101,8 +101,7 @@ public class SC_02_DashboardTest extends TestBase {
 			HomePage homepage = new HomePage(driver);
 			homepage.clickOnMyAssetsAndServices();
 			ReportDashboardPage dashboard = new ReportDashboardPage(driver);
-			String widgetTitle = dashboard.selectRandomWidget();
-			dashboard.clickOnViewReport(widgetTitle);
+			dashboard.clickOnViewReport(InitializePropertyFile.property.getProperty("Widget_Title"));
 			ViewReportPage report = new ViewReportPage(driver);
 			report.sortingVerification();
 		} catch (Exception e) {
