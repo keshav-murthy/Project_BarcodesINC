@@ -1,10 +1,7 @@
 package commons;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.MutableCapabilities;
@@ -25,7 +22,7 @@ import listener.ListenerTest;
 public class TestBase {
 
 	public WebDriver driver;
-	
+
 	@BeforeMethod
 	public void setUp() throws FileNotFoundException, IOException {
 		this.driver = createDriver();
@@ -33,7 +30,7 @@ public class TestBase {
 		InitializePropertyFile.loadPropertyFile();
 	}
 
-//	@AfterMethod
+	@AfterMethod
 	public void tearDown() {
 		if (driver != null) {
 			// driver.close();
@@ -84,7 +81,7 @@ public class TestBase {
 		driver.manage().timeouts().pageLoadTimeout(Timeouts.PAGE, TimeUnit.SECONDS);
 		driver.manage().timeouts().setScriptTimeout(Timeouts.PAGE, TimeUnit.SECONDS);
 	}
-	
+
 //	@SuppressWarnings("deprecation")
 //	public WebDriver downloadSettings(ChromeOptions options) {
 //		
