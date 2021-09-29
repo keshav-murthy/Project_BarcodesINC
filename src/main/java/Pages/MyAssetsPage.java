@@ -353,8 +353,8 @@ public class MyAssetsPage extends BasePage {
 
 	public void blankColumnVerification() {
 
-		wait.forElementToBeVisible(tableLengthDropDown);
-		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+//		wait.forElementToBeVisible(tableLengthDropDown);
+//		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
 
 		wait.forPage();
 
