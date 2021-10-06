@@ -1,5 +1,6 @@
 package TestCases;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -199,7 +200,7 @@ public class SC_15_EcommerceTest extends TestBase {
 			driver.navigate().to(InitializePropertyFile.property.getProperty("MagentoSandbox_URL"));
 			MagentoLoginPage magentoLoginpage = new MagentoLoginPage(driver);
 			magentoLoginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("MagentoSandbox_Username"),
-					InitializePropertyFile.property.getProperty("password"));
+					InitializePropertyFile.property.getProperty("MagentoSandbox_Password"));
 			MagentoPage magento = new MagentoPage(driver);
 			magento.verifyCustomerUpdate(randomEmail);
 			magento.verifyOrderID(orderID1);
@@ -312,7 +313,7 @@ public class SC_15_EcommerceTest extends TestBase {
 	}
 
 	@Test(priority = 12)
-	public void TC_12_ECO_I810_searchspringIntegrationValidation() {
+	public void TC_12_ECO_I810_searchspringIntegrationValidation() throws AWTException {
 
 		try {
 			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesDiscount_URL"));

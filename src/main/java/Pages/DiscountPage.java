@@ -1,10 +1,12 @@
 package Pages;
 
+import java.awt.AWTException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -30,12 +32,12 @@ public class DiscountPage extends BasePage {
 	@FindBy(xpath = "//a//parent::li[@class='menu-static-width']")
 	public List<WebElement> categories;
 
-	@FindBy(xpath = "//h2[@class='product-name']")
+	@FindBy(xpath = "//h2[@class='product-name']//a")
 	public List<WebElement> productsInCategories;
 
 	@FindBy(xpath = "//button[@title='Add To Cart']")
 	public List<WebElement> addToCart;
-	
+
 	@FindBy(xpath = "//span[@class='price']")
 	public List<WebElement> productPrice;
 
@@ -73,16 +75,16 @@ public class DiscountPage extends BasePage {
 		return category;
 	}
 
-	public void selectRandomProductFromCatogoriesList(String category) {
+	public void selectRandomProductFromCatogoriesList(String category) throws AWTException {
 
 		action = new Actions(driver);
+		pause(3000);
 		List<WebElement> list = driver
 				.findElements(By.xpath("// a[text()=' " + category + "']//parent::li//li[@class='menu-item']"));
 		System.out.println(list);
 		int randomProduct = random.nextInt(list.size());
 		wait.forElementToBeVisible(list.get(randomProduct));
-		action.moveToElement(list.get(randomProduct)).doubleClick().perform();
-//		action.doubleClick(list.get(randomProduct));
+		action.moveToElement(list.get(randomProduct)).build().perform();
 //		js.clickElement(list.get(randomProduct));
 		lOGGER.info("clicking on random product from categories");
 	}
@@ -99,14 +101,14 @@ public class DiscountPage extends BasePage {
 	}
 
 	public void verifyProductPrices() {
-		
+
 		for (int i = 0; i < productPrice.size(); i++) {
 			wait.forElementToBeVisible(productPrice.get(i));
 			Assert.assertTrue(productPrice.get(i).isDisplayed());
 		}
 		lOGGER.info("Verifying whether the Product's Price is visible or not");
 	}
-	
+
 	public void verifyAddToCart() {
 
 		for (int i = 0; i < addToCart.size(); i++) {
@@ -139,7 +141,11 @@ public class DiscountPage extends BasePage {
 
 		wait.forElementToBeVisible(searchField);
 		sendKeys(searchField, "Mobile Computing");
-		selectRandomSuggestionProduct();
+//		selectRandomSuggestionProduct();
+		searchField.sendKeys(Keys.ENTER);
+		int randomProduct = random.nextInt(productsInCategories.size());
+		wait.forElementToBeVisible(productsInCategories.get(randomProduct));
+		click(productsInCategories.get(randomProduct));
 		String currentUrl = driver.getCurrentUrl();
 		Assert.assertFalse(currentUrl.contains("barcodegiant.com"));
 		Assert.assertTrue(currentUrl.contains("https://www.barcodediscount.com/"));
@@ -148,7 +154,7 @@ public class DiscountPage extends BasePage {
 		lOGGER.info("verifying the page redirect upn clicking random product from suggestion list");
 	}
 
-	public void verifyProductsInCategories() {
+	public void verifyProductsInCategories() throws AWTException {
 
 		String category = selectRandomCategory();
 		System.out.println(category);

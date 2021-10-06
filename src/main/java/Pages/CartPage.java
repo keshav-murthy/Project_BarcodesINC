@@ -62,8 +62,8 @@ public class CartPage extends BasePage {
 	@FindBy(xpath = "//input[@value='freeshipping_freeshipping']")
 	WebElement freeSuperSaver;
 
-	@FindBy(xpath = "//input[@id='checkmo']")
-	WebElement chechMoneyOrder;
+	@FindBy(xpath = "//input[@id='cashondelivery']")
+	WebElement cashOnDelivery;
 
 	@FindBy(xpath = "//div[@class='checkout-success']//following-sibling::p//span")
 	WebElement orderID;
@@ -150,8 +150,8 @@ public class CartPage extends BasePage {
 		wait.forElementToBeVisible(freeSuperSaver);
 		click(freeSuperSaver);
 		wait.forPage();
-		wait.forElementToBeVisible(chechMoneyOrder);
-		click(chechMoneyOrder);
+		wait.forElementToBeVisible(cashOnDelivery);
+		click(cashOnDelivery);
 		return user;
 	}
 
