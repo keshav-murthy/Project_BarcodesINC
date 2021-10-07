@@ -318,7 +318,7 @@ public class SC_15_EcommerceTest extends TestBase {
 		try {
 			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesDiscount_URL"));
 			DiscountPage discount = new DiscountPage(driver);
-//		discount.verifyBreadcrumbs();
+//			discount.verifyBreadcrumbs();
 			discount.verifyPageRedirect();
 			discount.verifySearchSuggestions();
 			discount.verifyProductsInCategories();

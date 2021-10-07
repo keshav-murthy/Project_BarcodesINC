@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,8 +28,11 @@ public class DiscountPage extends BasePage {
 	@FindBy(xpath = "//p[@class='ss-ac-item-name ng-binding']")
 	public List<WebElement> searchSuggestions;
 
-	@FindBy(xpath = "//a//parent::li[@class='menu-static-width']")
-	public List<WebElement> categories;
+	@FindBy(xpath = "//a//parent::li[@class='menu-static-width']//a[text()=' Barcoding']")
+	public WebElement barcodingCategory;
+
+	@FindBy(xpath = "//a[text()=' Barcoding']//parent::li[@class='menu-static-width']//li")
+	public List<WebElement> barcodingSubcategory;
 
 	@FindBy(xpath = "//h2[@class='product-name']//a")
 	public List<WebElement> productsInCategories;
@@ -64,29 +66,14 @@ public class DiscountPage extends BasePage {
 		lOGGER.info("Searching for a random product among the list of suggestions");
 	}
 
-	public String selectRandomCategory() {
+	public void selectRandomCategory() {
 
-		action = new Actions(driver);
-		int randomProduct = random.nextInt(categories.size());
-		wait.forElementToBeVisible(categories.get(randomProduct));
-		String category = categories.get(randomProduct).getText();
-		action.moveToElement(categories.get(randomProduct)).perform();
+		Actions action = new Actions(driver);
+		wait.forElementToBeVisible(barcodingCategory);
+		int randomSubCategory = random.nextInt(barcodingSubcategory.size());
+		action.moveToElement(barcodingCategory).moveToElement(barcodingSubcategory.get(randomSubCategory)).click()
+				.build().perform();
 		lOGGER.info("Mouse hover to random categories among the menu");
-		return category;
-	}
-
-	public void selectRandomProductFromCatogoriesList(String category) throws AWTException {
-
-		action = new Actions(driver);
-		pause(3000);
-		List<WebElement> list = driver
-				.findElements(By.xpath("// a[text()=' " + category + "']//parent::li//li[@class='menu-item']"));
-		System.out.println(list);
-		int randomProduct = random.nextInt(list.size());
-		wait.forElementToBeVisible(list.get(randomProduct));
-		action.moveToElement(list.get(randomProduct)).build().perform();
-//		js.clickElement(list.get(randomProduct));
-		lOGGER.info("clicking on random product from categories");
 	}
 
 	public void verifyProducts() {
@@ -156,10 +143,9 @@ public class DiscountPage extends BasePage {
 
 	public void verifyProductsInCategories() throws AWTException {
 
-		String category = selectRandomCategory();
-		System.out.println(category);
-		selectRandomProductFromCatogoriesList(category);
+		selectRandomCategory();
 		verifyProducts();
+		lOGGER.info("verifying the products and their respective price from category section");
 	}
 
 	public void verifyPriceAndAddToCart() {
