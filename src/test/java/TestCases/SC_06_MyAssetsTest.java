@@ -30,6 +30,7 @@ public class SC_06_MyAssetsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.validSearchVerification();
 			myAsset.invalidSearchVerification();
 		} catch (Exception e) {
@@ -49,6 +50,7 @@ public class SC_06_MyAssetsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.sortingVerification();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,6 +69,7 @@ public class SC_06_MyAssetsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.clickOnAddAsset();
 			myAsset.addAssetPageVerification(InitializePropertyFile.property.getProperty("SC_06_Page_Title"));
 		} catch (Exception e) {
@@ -87,6 +90,7 @@ public class SC_06_MyAssetsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.blankColumnVerification();
 		} catch (Exception e) {
 			e.printStackTrace();

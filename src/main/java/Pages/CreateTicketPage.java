@@ -21,7 +21,7 @@ public class CreateTicketPage extends BasePage {
 	@FindBy(xpath = "//input[@id='device_repair']")
 	WebElement repair;
 
-	@FindBy(xpath = "//label[text()='Issue Title']//parent::div//div//input")
+	@FindBy(xpath = "//label[text()='Title ']//parent::div//div//input")
 	WebElement issueTitle;
 
 	@FindBy(xpath = "(//div[@class='input-box']//textarea)[2]")
@@ -39,7 +39,7 @@ public class CreateTicketPage extends BasePage {
 	@FindBy(xpath = "//input[@class='input-text contactdetail_phone']")
 	WebElement contactPhone;
 
-	@FindBy(xpath = "//input[@type='select-one']")
+	@FindBy(xpath = "(//input[@type='select-one'])[2]")
 	WebElement serialNumber;
 
 	@FindBy(xpath = "//button[text()='Select']")

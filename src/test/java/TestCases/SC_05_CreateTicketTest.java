@@ -31,24 +31,26 @@ public class SC_05_CreateTicketTest extends TestBase {
 	public void TC_01_createTicket() {
 
 		try {
-		LoginPage loginpage = new LoginPage(driver);
-		loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-				InitializePropertyFile.property.getProperty("password"));
-		HomePage homepage = new HomePage(driver);
-		homepage.clickOnMyAssetsAndServices();
-		MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-		assetsandservices.clickOnMyAssets();
-		MyAssetsPage myassets = new MyAssetsPage(driver);
-		randomAsset = myassets.selectRandomAsset();
-		assetsandservices.clickOnCreateTickets();
-		CreateTicketPage createticket = new CreateTicketPage(driver);
-		createticket.addingTicketProcedure(randomAsset);
-		assetsandservices.clickOnMyTickets();
-		MyTicketsPage myTickets = new MyTicketsPage(driver);
-		myTickets.validSearchVerification(randomAsset);
-		myTickets.clickTicket(randomAsset);
-		TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
-		ticketID = ticketdetails.getTicketDetails();
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myassets = new MyAssetsPage(driver);
+			myassets.selectDefaultView();
+			randomAsset = myassets.selectRandomAsset();
+			assetsandservices.clickOnCreateTickets();
+			CreateTicketPage createticket = new CreateTicketPage(driver);
+			createticket.addingTicketProcedure(randomAsset);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
+			myTickets.validSearchVerification(randomAsset);
+			myTickets.clickTicket(randomAsset);
+			TicketDetailsPage ticketdetails = new TicketDetailsPage(driver);
+			ticketID = ticketdetails.getTicketDetails();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

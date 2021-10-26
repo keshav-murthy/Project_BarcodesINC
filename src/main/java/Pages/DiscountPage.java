@@ -1,10 +1,11 @@
 package Pages;
 
+import java.awt.AWTException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -27,15 +28,18 @@ public class DiscountPage extends BasePage {
 	@FindBy(xpath = "//p[@class='ss-ac-item-name ng-binding']")
 	public List<WebElement> searchSuggestions;
 
-	@FindBy(xpath = "//a//parent::li[@class='menu-static-width']")
-	public List<WebElement> categories;
+	@FindBy(xpath = "//a//parent::li[@class='menu-static-width']//a[text()=' Barcoding']")
+	public WebElement barcodingCategory;
 
-	@FindBy(xpath = "//h2[@class='product-name']")
+	@FindBy(xpath = "//a[text()=' Barcoding']//parent::li[@class='menu-static-width']//li")
+	public List<WebElement> barcodingSubcategory;
+
+	@FindBy(xpath = "//h2[@class='product-name']//a")
 	public List<WebElement> productsInCategories;
 
 	@FindBy(xpath = "//button[@title='Add To Cart']")
 	public List<WebElement> addToCart;
-	
+
 	@FindBy(xpath = "//span[@class='price']")
 	public List<WebElement> productPrice;
 
@@ -62,29 +66,14 @@ public class DiscountPage extends BasePage {
 		lOGGER.info("Searching for a random product among the list of suggestions");
 	}
 
-	public String selectRandomCategory() {
+	public void selectRandomCategory() {
 
-		action = new Actions(driver);
-		int randomProduct = random.nextInt(categories.size());
-		wait.forElementToBeVisible(categories.get(randomProduct));
-		String category = categories.get(randomProduct).getText();
-		action.moveToElement(categories.get(randomProduct)).perform();
+		Actions action = new Actions(driver);
+		wait.forElementToBeVisible(barcodingCategory);
+		int randomSubCategory = random.nextInt(barcodingSubcategory.size());
+		action.moveToElement(barcodingCategory).moveToElement(barcodingSubcategory.get(randomSubCategory)).click()
+				.build().perform();
 		lOGGER.info("Mouse hover to random categories among the menu");
-		return category;
-	}
-
-	public void selectRandomProductFromCatogoriesList(String category) {
-
-		action = new Actions(driver);
-		List<WebElement> list = driver
-				.findElements(By.xpath("// a[text()=' " + category + "']//parent::li//li[@class='menu-item']"));
-		System.out.println(list);
-		int randomProduct = random.nextInt(list.size());
-		wait.forElementToBeVisible(list.get(randomProduct));
-		action.moveToElement(list.get(randomProduct)).doubleClick().perform();
-//		action.doubleClick(list.get(randomProduct));
-//		js.clickElement(list.get(randomProduct));
-		lOGGER.info("clicking on random product from categories");
 	}
 
 	public void verifyProducts() {
@@ -99,14 +88,14 @@ public class DiscountPage extends BasePage {
 	}
 
 	public void verifyProductPrices() {
-		
+
 		for (int i = 0; i < productPrice.size(); i++) {
 			wait.forElementToBeVisible(productPrice.get(i));
 			Assert.assertTrue(productPrice.get(i).isDisplayed());
 		}
 		lOGGER.info("Verifying whether the Product's Price is visible or not");
 	}
-	
+
 	public void verifyAddToCart() {
 
 		for (int i = 0; i < addToCart.size(); i++) {
@@ -139,7 +128,11 @@ public class DiscountPage extends BasePage {
 
 		wait.forElementToBeVisible(searchField);
 		sendKeys(searchField, "Mobile Computing");
-		selectRandomSuggestionProduct();
+//		selectRandomSuggestionProduct();
+		searchField.sendKeys(Keys.ENTER);
+		int randomProduct = random.nextInt(productsInCategories.size());
+		wait.forElementToBeVisible(productsInCategories.get(randomProduct));
+		click(productsInCategories.get(randomProduct));
 		String currentUrl = driver.getCurrentUrl();
 		Assert.assertFalse(currentUrl.contains("barcodegiant.com"));
 		Assert.assertTrue(currentUrl.contains("https://www.barcodediscount.com/"));
@@ -148,12 +141,11 @@ public class DiscountPage extends BasePage {
 		lOGGER.info("verifying the page redirect upn clicking random product from suggestion list");
 	}
 
-	public void verifyProductsInCategories() {
+	public void verifyProductsInCategories() throws AWTException {
 
-		String category = selectRandomCategory();
-		System.out.println(category);
-		selectRandomProductFromCatogoriesList(category);
+		selectRandomCategory();
 		verifyProducts();
+		lOGGER.info("verifying the products and their respective price from category section");
 	}
 
 	public void verifyPriceAndAddToCart() {

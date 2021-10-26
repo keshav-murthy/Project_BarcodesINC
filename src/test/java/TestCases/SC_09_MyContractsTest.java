@@ -24,32 +24,32 @@ public class SC_09_MyContractsTest extends TestBase {
 		homepage.clickOnMyAssetsAndServices();
 	}
 
-//	@Test(priority = 1)
-//	public void TC_01_contractDetailList() {
-//
-//		try {
-//			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//			assetsandservices.clickOnMyContracts();
-//			MyContractsPage mycontracts = new MyContractsPage(driver);
-//			mycontracts.myContractsPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_01"));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	@Test(priority = 2)
-//	public void TC_02_verifySearch() {
-//
-//		try {
-//			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//			assetsandservices.clickOnMyContracts();
-//			MyContractsPage mycontracts = new MyContractsPage(driver);
-//			mycontracts.validSearchVerification();
-//			mycontracts.invalidSearchVerification();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Test(priority = 1)
+	public void TC_01_contractDetailList() {
+
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.myContractsPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_01"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 2)
+	public void TC_02_verifySearch() {
+
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.validSearchVerification();
+			mycontracts.invalidSearchVerification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test(priority = 3)
 	public void TC_03_sortingColumns() {
@@ -64,18 +64,18 @@ public class SC_09_MyContractsTest extends TestBase {
 		}
 	}
 
-//	@Test(priority = 4)
-//	public void TC_04_addContract() {
-//
-//		try {
-//			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
-//			assetsandservices.clickOnMyContracts();
-//			MyContractsPage mycontracts = new MyContractsPage(driver);
-//			mycontracts.clickOnAddContract();
-//			AddContractPage addContract = new AddContractPage(driver);
-//			addContract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_02"));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Test(priority = 4)
+	public void TC_04_addContract() {
+
+		try {
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyContracts();
+			MyContractsPage mycontracts = new MyContractsPage(driver);
+			mycontracts.clickOnAddContract();
+			AddContractPage addContract = new AddContractPage(driver);
+			addContract.addContractPageVerification(InitializePropertyFile.property.getProperty("SC_09_Page_Title_02"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

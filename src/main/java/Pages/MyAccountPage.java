@@ -23,10 +23,10 @@ public class MyAccountPage extends BasePage {
 	@FindBy(xpath = "//div[@class='item-order-row']")
 	public List<WebElement> recentOrders;
 
-	@FindBy(xpath = "//td[@data-th='Order #']//a")
+	@FindBy(xpath = "//div[@class='col id']//a")
 	public List<WebElement> orderIDs;
 
-	@FindBy(xpath = "//td[@data-th='Placed By']")
+	@FindBy(xpath = "//div[@class='col shipping']")
 	public List<WebElement> placedBy;
 
 	@FindBy(xpath = "//input[@id='filter_value']")
@@ -67,7 +67,7 @@ public class MyAccountPage extends BasePage {
 
 		ArrayList<String> orderDetails=new ArrayList<String>();
 		wait.forElementToBeVisible(orderIDs.get(i));
-		orderDetails.add(orderIDs.get(i).getText());
+		orderDetails.add(orderIDs.get(i).getText().replace("#", ""));
 		wait.forElementToBeVisible(placedBy.get(i));
 		orderDetails.add(placedBy.get(i).getText());
 		lOGGER.info("Fetching the order details from Account dashboard section");
@@ -81,8 +81,8 @@ public class MyAccountPage extends BasePage {
 		wait.forElementToBeVisible(searchButton);
 		click(searchButton);
 		wait.forPage();
-		wait.forElementToBeVisible(orderCustomer.get(0));
-		String actual = orderCustomer.get(0).getText();
+		wait.forElementToBeVisible(placedBy.get(0));
+		String actual = placedBy.get(0).getText();
 		String expected = orderDetails.get(1);
 		Assert.assertEquals(actual, expected);
 		lOGGER.info("verifying the order details in my orders section");

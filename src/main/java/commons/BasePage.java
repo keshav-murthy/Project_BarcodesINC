@@ -12,6 +12,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
@@ -23,6 +24,9 @@ public abstract class BasePage {
 	protected static Actions action;
 	protected static JavaScriptHelper js;
 	protected static Random random = new Random();
+
+	@FindBy(xpath = "//select[@id='my_views_title']")
+	WebElement myViewsDropDown;
 
 	protected BasePage(WebDriver driver) {
 		this.driver = driver;
@@ -129,7 +133,7 @@ public abstract class BasePage {
 		js.executeScript("arguments[0].value='" + val + "';", element);
 
 	}
-	
+
 	/* This method will enter value in the input textbox */
 	public static void javaScriptSendValue(WebElement element, Keys val) {
 		js.executeScript("arguments[0].value='" + val + "';", element);
@@ -141,8 +145,11 @@ public abstract class BasePage {
 		js.executeScript("arguments[0].click();", element);
 
 	}
-	
-	/* This method will change the attribute value of an element using javascriptexecutor */
+
+	/*
+	 * This method will change the attribute value of an element using
+	 * javascriptexecutor
+	 */
 //	public static void javaScriptModifyAttributeValue(WebElement element,String oldValue,String newValue) {
 //		js.executeScript("arguments[0].click();", element);
 //		js.executeScript(element.setAttribute("'+oldValue+','newValue'););
@@ -243,7 +250,7 @@ public abstract class BasePage {
 		int b = Integer.parseInt(color.substring(color.lastIndexOf(",") + 2));
 		return String.format("#%02X%02X%02X", r, g, b);
 	}
-	
+
 	public String genRandomString(int length) {
 		String SALTCHARS = "1234567890";
 		StringBuilder salt = new StringBuilder();
@@ -254,5 +261,12 @@ public abstract class BasePage {
 		}
 		String saltStr = salt.toString();
 		return saltStr;
+	}
+
+	public void selectDefaultView() {
+
+		wait.forElementToBeVisible(myViewsDropDown);
+		dropDownMethod(myViewsDropDown, "VisibleText", "Default View");
+		wait.forPage();
 	}
 }

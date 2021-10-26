@@ -28,12 +28,12 @@ public class RandomInputPage extends BasePage {
 	@FindBy(xpath = "//input[@id='serial_no']")
 	WebElement assetSerialNumber;
 
-	@FindBy(xpath = "//div[@class='airtrack-banner']")
+	@FindBy(xpath = "//div[@class='airtrack-banner' or @class='airtrack-banner general']")
 	WebElement airTrackBanner;
 
 	@FindBy(xpath = "//div[@class='airtrack-banner']//h4")
 	WebElement bannerText;
-	
+
 	@FindBy(xpath = "//h1")
 	WebElement productTitle;
 
@@ -103,22 +103,35 @@ public class RandomInputPage extends BasePage {
 		Assert.assertEquals(expected, actual);
 		lOGGER.info("Verifying the current URL with the fetched URL from the sheet");
 
-		Assert.assertTrue(airTrackBanner.isDisplayed());
-		lOGGER.info("Verifying whether the banner is present in the page or not");
+		if (sheetName == "AirTrackBanner") {
+			Assert.assertTrue(airTrackBanner.isDisplayed());
+			lOGGER.info("Verifying whether the banner is present in the page or not");
 
-		System.out.println(bannerText.getText());
-		Assert.assertTrue(bannerText.getText().contains("Try Zebra Compatible"));
-		lOGGER.info("Verifying whether the text in banner is as expected or not");
+			wait.forElementToBeClickable(airTrackBanner);
+			click(airTrackBanner);
+			lOGGER.info("Verifying whether the banner is clickable or not");
 
-		wait.forElementToBeClickable(airTrackBanner);
-		click(airTrackBanner);
-		lOGGER.info("Verifying whether the banner is clickable or not");
+			int rowNum = reader.getCellRowNum(sheetName, "URL", expected);
+			String expectedURL = reader.getCellData(sheetName, "Banner Re-direct", rowNum);
+			String actualURL = driver.getCurrentUrl();
+			Assert.assertEquals(actualURL, expectedURL);
+			lOGGER.info("Verifying when clicked on banner redirects correctly or not");
+		} else {
 
-		int rowNum = reader.getCellRowNum(sheetName, "URL", expected);
-		String expectedURL = reader.getCellData(sheetName, "Banner Re-direct", rowNum);
-		String actualURL = driver.getCurrentUrl();
-		Assert.assertEquals(actualURL, expectedURL);
-		lOGGER.info("Verifying when clicked on banner redirects correctly or not");
+			System.out.println(bannerText.getText());
+			Assert.assertTrue(bannerText.getText().contains("Try Zebra Compatible"));
+			lOGGER.info("Verifying whether the text in banner is as expected or not");
+
+			wait.forElementToBeClickable(airTrackBanner);
+			click(airTrackBanner);
+			lOGGER.info("Verifying whether the banner is clickable or not");
+
+			int rowNum = reader.getCellRowNum(sheetName, "URL", expected);
+			String expectedURL = reader.getCellData(sheetName, "Banner Re-direct", rowNum);
+			String actualURL = driver.getCurrentUrl();
+			Assert.assertEquals(actualURL, expectedURL);
+			lOGGER.info("Verifying when clicked on banner redirects correctly or not");
+		}
 	}
 
 	public void verifyTopNavContainers(String sheetName, String expected) {
@@ -130,7 +143,7 @@ public class RandomInputPage extends BasePage {
 		int rowNum = reader.getCellRowNum(sheetName, "URL", expected);
 		String expectedProduct = reader.getCellData(sheetName, "Title", rowNum);
 		String actualProduct = productTitle.getText();
-		Assert.assertEquals(actualProduct,expectedProduct);
+		Assert.assertEquals(actualProduct, expectedProduct);
 		lOGGER.info("Verifying when clicked on banner redirects correctly or not");
 	}
 }

@@ -87,9 +87,10 @@ public class LocationsPage extends BasePage {
 		wait.forElementToBeVisible(tableLengthDropDown);
 		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
 
-		int randomNumberIndex = random.nextInt(address.size());
-		wait.forElementToBeVisible(address.get(randomNumberIndex));
-		String randomAddress = address.get(randomNumberIndex).getText();
+//		int randomNumberIndex = random.nextInt(address.size());
+//		wait.forElementToBeVisible(address.get(randomNumberIndex));
+//		String randomAddress = address.get(randomNumberIndex).getText();
+		String randomAddress = "Tes test test ab India 123";
 		System.out.println("Valid search element to be entered is  :------" + randomAddress);
 
 		wait.forElementToBeVisible(search);
