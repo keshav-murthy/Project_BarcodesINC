@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 
 import Pages.HomePage;
 import Pages.LoginPage;
+import Pages.MyAssetsAndServicesPage;
+import Pages.MyAssetsPage;
+import Pages.MyTicketsPage;
 import Pages.ReportDashboardPage;
 import Pages.ViewReportPage;
 import commons.InitializePropertyFile;
@@ -80,6 +83,44 @@ public class SC_14_Sprint12_ServicePortalTrueViewTest extends TestBase {
 			report.verifyBreadcrumbTrail();
 			report.verifyContractColumn();
 			report.verifyLocation();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 4)
+	public void SP_I322_myViewsValidationForTickets() {
+
+		try {
+			driver.navigate().to(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyTickets();
+			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.verifyMyViews();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 5)
+	public void SP_I322_myViewsValidationForAssets() {
+
+		try {
+			driver.navigate().to(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+			LoginPage loginpage = new LoginPage(driver);
+			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+					InitializePropertyFile.property.getProperty("password"));
+			HomePage homepage = new HomePage(driver);
+			homepage.clickOnMyAssetsAndServices();
+			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
+			assetsandservices.clickOnMyAssets();
+			MyAssetsPage myAssets = new MyAssetsPage(driver);
+			myAssets.verifyMyViews();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

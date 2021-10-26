@@ -29,8 +29,8 @@ public class MyTicketsPage extends BasePage {
 	String sheetName = "MyTickets";
 	XSSFWorkbook workbook = null;
 
-	@FindBy(xpath = "//h1//span")
-	WebElement pageHeader;
+	@FindBy(xpath = "//h1[@class='page-title']")
+	List<WebElement> pageHeader;
 
 	@FindBy(xpath = "//input[@type='search']")
 	WebElement search;
@@ -137,6 +137,53 @@ public class MyTicketsPage extends BasePage {
 	@FindBy(xpath = "//select[@name='ticket-table_length']")
 	WebElement tableLengthDropDown;
 
+	// ---->>> My views locators
+
+	@FindBy(xpath = "//select[@id='my_views_title']")
+	WebElement myViewsDropDown;
+
+	@FindBy(xpath = "//img[@id='edit_my_view']")
+	WebElement editViewIcon;
+
+	@FindBy(xpath = "//form[@name='myViewFormAdd']//input[@id='text_3']//following-sibling::img[@alt='my-view-add']")
+	WebElement editViewIconInPage;
+
+	@FindBy(xpath = "//img[@id='add_my_view']")
+	WebElement addViewIcon;
+
+	@FindBy(xpath = "//form[@name='myViewFormAdd']//span[text()='Add View']")
+	WebElement addViewPageTitle;
+
+	@FindBy(xpath = "//input[@value='Filters']")
+	List<WebElement> filtersTab;
+
+	@FindBy(xpath = "//input[@value='Actions']")
+	List<WebElement> actionsTab;
+
+	@FindBy(xpath = "//div[@class='tab_filter_model rma-my-view-tabs-filter model']//label")
+	List<WebElement> filtersSubTab;
+
+	@FindBy(xpath = "//form[@name='myViewFormEdit']//span[text()='Automation']")
+	WebElement currentViewPageTitle;
+
+	@FindBy(xpath = "//div[@class='tab-header']//input")
+	List<WebElement> tabHeaders;
+
+	@FindBy(xpath = "//div[@class='tab1_box rma-mr-20 search_1']//label")
+	List<WebElement> columnSuggestions;
+
+	@FindBy(xpath = "//span[@style='visibility: visible;']")
+	List<WebElement> filtersTabSuggestions;
+
+	@FindBy(xpath = "//select[@name='emailto']")
+	List<WebElement> sendMail;
+
+	@FindBy(xpath = "//select[@name='user_name']")
+	List<WebElement> mailUsers;
+
+	@FindBy(xpath = "//button[@data-role='closeBtn']")
+	List<WebElement> closeViewPage;
+
 	private static final Logger lOGGER = LogManager.getLogger(MyTicketsPage.class.getName());
 
 	public MyTicketsPage(WebDriver driver) {
@@ -152,8 +199,8 @@ public class MyTicketsPage extends BasePage {
 
 	public void myTicketPageVerification(String expected) {
 
-		wait.forElementToBeVisible(pageHeader);
-		String actual = pageHeader.getText();
+		wait.forElementToBeVisible(pageHeader.get(1));
+		String actual = pageHeader.get(1).getText();
 		Assert.assertEquals(actual, expected);
 		lOGGER.info("Verifying Page Heading of My Tickets page");
 
@@ -279,8 +326,8 @@ public class MyTicketsPage extends BasePage {
 
 	public void createTicketPageVerification(String expected) {
 
-		wait.forElementToBeVisible(pageHeader);
-		String actual = pageHeader.getText();
+		wait.forElementToBeVisible(pageHeader.get(0));
+		String actual = pageHeader.get(0).getText();
 		actual = actual.substring(actual.indexOf("1") + 3);
 		Assert.assertEquals(actual, expected);
 		lOGGER.info("Verifying Page Heading of My Tickets page");
@@ -430,5 +477,101 @@ public class MyTicketsPage extends BasePage {
 			emptyTable.isDisplayed();
 			lOGGER.info(emptyTable.getText());
 		}
+	}
+
+	public void verifyMyViewsData() {
+
+		wait.forPage();
+		for (int i = 0; i < tableData.size() - 1; i++) {
+			wait.forElementToBeVisible(tableData.get(i));
+			String data1 = tableData.get(i).getText().toUpperCase();
+			String data2 = tableData.get(i + 1).getText().toUpperCase();
+
+			int result = data1.compareTo(data2);
+//			System.out.println(data1);
+//			System.out.println(data2);
+//			System.out.println(result);
+			Assert.assertTrue(result == 0);
+		}
+		lOGGER.info("Verifying the data in table to be appeared after applying filter in my views");
+	}
+
+	public void verifyAddViewPage() {
+
+		wait.forElementToBeVisible(addViewIcon);
+		click(addViewIcon);
+		wait.forElementToBeVisible(addViewPageTitle);
+		Assert.assertTrue(addViewPageTitle.isDisplayed());
+		wait.forElementToBeVisible(closeViewPage.get(1));
+		click(closeViewPage.get(1));
+		lOGGER.info("Verifying the add view page appearing when clicked on add view + icon");
+	}
+
+	public void verifyEditViewPage() {
+
+		wait.forElementToBeVisible(editViewIcon);
+		click(editViewIcon);
+		wait.forElementToBeVisible(currentViewPageTitle);
+		Assert.assertEquals(currentViewPageTitle.getText(), "Automation");
+		wait.forElementToBeVisible(closeViewPage.get(2));
+		click(closeViewPage.get(2));
+		lOGGER.info("Verifying the edit view page appearing when clicked on edit view pencil icon");
+	}
+
+	public void verifyAddEditColumns() {
+
+		wait.forElementToBeVisible(addViewIcon);
+		click(addViewIcon);
+
+		wait.forElementToBeVisible(editViewIconInPage);
+		Assert.assertTrue(editViewIconInPage.isDisplayed());
+
+		for (int i = 0; i < tabHeaders.size() - 3; i++) {
+			wait.forElementToBeVisible(tabHeaders.get(i));
+			Assert.assertTrue(tabHeaders.get(i).isDisplayed());
+		}
+		for (int i = 0; i < columnSuggestions.size(); i++) {
+			wait.forElementToBeVisible(columnSuggestions.get(i));
+			Assert.assertTrue(columnSuggestions.get(i).isDisplayed());
+		}
+		lOGGER.info("Verifying the contents present in edit or add view page ");
+	}
+
+	public void verifyFiltersTab() {
+
+		wait.forElementToBeVisible(editViewIcon);
+		click(editViewIcon);
+		wait.forElementToBeVisible(filtersTab.get(1));
+		click(filtersTab.get(1));
+		wait.forElementToBeVisible(filtersTabSuggestions.get(1));
+		Assert.assertTrue(filtersTabSuggestions.get(1).isDisplayed());
+		for (int i = 0; i < filtersSubTab.size(); i++) {
+			wait.forElementToBeVisible(filtersSubTab.get(i));
+			Assert.assertTrue(filtersSubTab.get(i).isDisplayed());
+		}
+		lOGGER.info("Verifying the filters tab in edit view page section");
+	}
+
+	public void verifyActionsTab() {
+
+		wait.forElementToBeVisible(actionsTab.get(1));
+		click(actionsTab.get(1));
+		wait.forElementToBeVisible(sendMail.get(1));
+		Assert.assertTrue(sendMail.get(1).isDisplayed());
+		wait.forElementToBeVisible(mailUsers.get(1));
+		Assert.assertTrue(mailUsers.get(1).isDisplayed());
+		lOGGER.info("Verifying the actions tab in edit view page section");
+	}
+
+	public void verifyMyViews() {
+
+		wait.forElementToBeVisible(myViewsDropDown);
+		dropDownMethod(myViewsDropDown, "VisibleText", "Automation");
+		verifyMyViewsData();
+		verifyAddViewPage();
+		verifyEditViewPage();
+		verifyAddEditColumns();
+		verifyFiltersTab();
+		verifyActionsTab();
 	}
 }

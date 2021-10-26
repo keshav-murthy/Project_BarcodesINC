@@ -174,7 +174,6 @@ public class SC_15_EcommerceTest extends TestBase {
 			orders.verifyOrdersSeperation();
 			orders.verifyOrders();
 			orders.verifyReorderButton();
-
 			orders.verifyOrderDetailsPage();
 		} catch (Exception e) {
 			e.printStackTrace();

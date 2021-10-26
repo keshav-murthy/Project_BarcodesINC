@@ -38,10 +38,12 @@ public class SC_07_CreateAssetTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			randomAsset = myAsset.selectRandomAsset();
 			myAsset.clickOnAddAsset();
 			AddAssetPage addAsset = new AddAssetPage(driver);
 			addAsset.addingAssetProcedure(randomAsset);
+			myAsset.selectDefaultView();
 			myAsset.enterSearchField(randomAsset);
 			myAsset.verifyAsset(randomAsset);
 			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
@@ -62,14 +64,16 @@ public class SC_07_CreateAssetTest extends TestBase {
 			homepage.clickOnMyAssetsAndServices();
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
-			MyAssetsPage myassets = new MyAssetsPage(driver);
-			myassets.clickOnAddAsset();
+			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
+			myAsset.clickOnAddAsset();
 			RandomInputPage randomInput = new RandomInputPage(driver);
 			random = randomInput.selectRandomInput();
 			AddAssetPage addassets = new AddAssetPage(driver);
 			addassets.addingAssetProcedure(random);
-			myassets.enterSearchField(random);
-			myassets.verifyAsset(random);
+			myAsset.selectDefaultView();
+			myAsset.enterSearchField(random);
+			myAsset.verifyAsset(random);
 			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
 			assetdetails.fetchAssetDetails(random);
 		} catch (Exception e) {

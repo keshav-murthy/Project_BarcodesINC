@@ -39,6 +39,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			String randomAsset = myAsset.selectRandomAsset();
 			myAsset.enterSearchField(randomAsset);
 			myAsset.verifyAsset(randomAsset);
@@ -63,6 +64,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			String randomAsset = myAsset.selectRandomAsset();
 			myAsset.enterSearchField(randomAsset);
 			myAsset.verifyAsset(randomAsset);
@@ -119,6 +121,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			String randomAsset = myAsset.selectRandomAsset();
 			myAsset.enterSearchField(randomAsset);
 			myAsset.verifyAsset(randomAsset);
@@ -141,6 +144,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			String randomAsset = myAsset.selectRandomAsset();
 			myAsset.enterSearchField(randomAsset);
 			myAsset.verifyAsset(randomAsset);
@@ -169,6 +173,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			String randomAsset = myAsset.selectRandomAsset();
 			myAsset.verifyAsset(randomAsset);
 			AssetDetailsPage assetdetails = new AssetDetailsPage(driver);
@@ -191,6 +196,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.contractDetailsVerification();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -209,6 +215,7 @@ public class SC_08_AssetDetailScreenTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyAssets();
 			MyAssetsPage myAsset = new MyAssetsPage(driver);
+			myAsset.selectDefaultView();
 			myAsset.locationVerfication();
 		} catch (Exception e) {
 			e.printStackTrace();

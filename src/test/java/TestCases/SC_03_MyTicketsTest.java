@@ -30,6 +30,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.myTicketPageVerification(InitializePropertyFile.property.getProperty("SC_03_Page_Title"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,6 +49,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.validSearchVerification();
 			myTickets.invalidSearchVerification();
 		} catch (Exception e) {
@@ -67,6 +69,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.sortingVerification();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,6 +88,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.paginationVerification();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,6 +107,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.clickOnCreateTicket();
 			myTickets.createTicketPageVerification(
 					InitializePropertyFile.property.getProperty("SC_03_Create_Ticket_Page_Title"));
@@ -124,6 +129,7 @@ public class SC_03_MyTicketsTest extends TestBase {
 			MyAssetsAndServicesPage assetsandservices = new MyAssetsAndServicesPage(driver);
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
+			myTickets.selectDefaultView();
 			myTickets.blankColumnVerification(randomUser);
 		} catch (Exception e) {
 			e.printStackTrace();

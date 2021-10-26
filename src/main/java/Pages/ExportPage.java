@@ -55,7 +55,7 @@ public class ExportPage extends BasePage {
 
 	public void downloadingFile() throws IOException {
 
-		WebElement ExportToCSV = driver.findElement(By.xpath("//button[contains(text(),'Export to CSV')]"));
+		WebElement ExportToCSV = driver.findElement(By.xpath("//div[@class='buttons-bottom']//button[contains(text(),'Export to CSV')]"));
 		wait.forElementToBeVisible(ExportToCSV);
 		ExportToCSV.click();
 		pause(2000);
