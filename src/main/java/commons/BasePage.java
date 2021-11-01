@@ -267,6 +267,6 @@ public abstract class BasePage {
 
 		wait.forElementToBeVisible(myViewsDropDown);
 		dropDownMethod(myViewsDropDown, "VisibleText", "Default View");
-		wait.forPage(5000);
+//		wait.forPage(5000);
 	}
 }
