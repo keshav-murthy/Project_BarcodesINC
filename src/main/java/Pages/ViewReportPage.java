@@ -53,7 +53,7 @@ public class ViewReportPage extends BasePage {
 	@FindBy(xpath = "//tbody//tr//td[@class='reorder sorting_1']")
 	List<WebElement> table;
 
-	@FindBy(xpath = "//tbody//tr//td[8]")
+	@FindBy(xpath = "//tbody//tr//td[9]")
 	List<WebElement> dateTable;
 
 	@FindBy(xpath = "//tbody//tr//td[1]")
