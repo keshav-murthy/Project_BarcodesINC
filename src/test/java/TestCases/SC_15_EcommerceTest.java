@@ -138,16 +138,16 @@ public class SC_15_EcommerceTest extends TestBase {
 			cart.clickOnCheckout();
 			cart.verifyPaymentMethods();
 
-			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
-			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-					InitializePropertyFile.property.getProperty("password"));
-			homepage.selectViewCart();
-			cart.removeAllItems();
-			HomePage.click(HomePage.barcodesLogo);
-			homepage.clickOnMyProducts();
-			myProducts.selectProduct();
-			cart.clickOnCheckout();
-			cart.verifyPaymentMethods();
+//			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+//			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+//					InitializePropertyFile.property.getProperty("password"));
+//			homepage.selectViewCart();
+//			cart.removeAllItems();
+//			HomePage.click(HomePage.barcodesLogo);
+//			homepage.clickOnMyProducts();
+//			myProducts.selectProduct();
+//			cart.clickOnCheckout();
+//			cart.verifyPaymentMethods();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

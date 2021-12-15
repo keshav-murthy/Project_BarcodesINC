@@ -89,7 +89,8 @@ public class LoginPage extends BasePage {
 			lOGGER.info("entering the password");
 
 			wait.forElementToBeVisible(signinButton);
-			js.clickElement(signinButton);
+			scrollToElementView(signinButton);
+			click(signinButton);
 			lOGGER.info("clicked on Sign-In Button");
 		} else {
 			wait.forElementToBeVisible(usernameField);
@@ -101,7 +102,8 @@ public class LoginPage extends BasePage {
 			lOGGER.info("entering the password");
 
 			wait.forElementToBeVisible(loginButton);
-			js.clickElement(loginButton);
+			scrollToElementView(loginButton);
+			click(loginButton);
 			lOGGER.info("clicked on Login Button");
 		}
 	}
