@@ -240,6 +240,7 @@ public class ViewReportPage extends BasePage {
 				click(nextArrow);
 			}
 
+			try {
 			wait.forPage(1500);
 			wait.forElementToBeVisible(currentPage);
 			Assert.assertEquals(currentPage.getText(), Integer.toString(i + 1));
@@ -247,13 +248,15 @@ public class ViewReportPage extends BasePage {
 
 			wait.forElementToBeVisible(dataTableInfo);
 //			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
+		}catch(TimeoutException e) {
 		}
+			}
 	}
 
-	public void dateRangeVerification(String startDate, String endDate) {
+	public void dateRangeVerification(String startDate, String endDate,String url) {
 
 		wait.forPage();
-		driver.navigate().to("https://www.barcodesinc.com/store/rma_assetmanagement/report/totalserviced?sdate="
+		driver.navigate().to(url+"store/rma_assetmanagement/report/totalserviced?sdate="
 				+ startDate + "&todate=" + endDate + "");
 		wait.forPage();
 		click(lastUpdated);

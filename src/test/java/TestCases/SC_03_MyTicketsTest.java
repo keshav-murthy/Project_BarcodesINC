@@ -1,6 +1,7 @@
 package TestCases;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import Pages.HomePage;
@@ -8,14 +9,22 @@ import Pages.LoginPage;
 import Pages.MyAssetsAndServicesPage;
 import Pages.MyTicketsPage;
 import Pages.RandomInputPage;
+import Pages.ViewReportPage;
 import commons.InitializePropertyFile;
 import commons.TestBase;
 
 public class SC_03_MyTicketsTest extends TestBase {
 
+	@Parameters({"URL"})
 	@BeforeMethod
-	public void openPage() {
+	public void openPage(String URL) {
+		if(URL.equals("Prod"))
 		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+		else if(URL.equals("Sandbox"))
+			driver.get(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+		else if(URL.equals("Staging"))
+			driver.get(InitializePropertyFile.property.getProperty("Staging_URL"));
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)
@@ -89,7 +98,8 @@ public class SC_03_MyTicketsTest extends TestBase {
 			assetsandservices.clickOnMyTickets();
 			MyTicketsPage myTickets = new MyTicketsPage(driver);
 			myTickets.selectDefaultView();
-			myTickets.paginationVerification();
+			ViewReportPage viewReport=new ViewReportPage(driver);
+			viewReport.paginationVerification();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

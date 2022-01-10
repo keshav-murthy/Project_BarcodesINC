@@ -59,7 +59,7 @@ public class CartPage extends BasePage {
 	@FindBy(xpath = "//div[@id='shipping-new-address-form']//select[@name='region_id']")
 	WebElement state;
 
-	@FindBy(xpath = "//input[@value='freeshipping_freeshipping']")
+	@FindBy(xpath = "//input[@value='ups_01']")
 	WebElement freeSuperSaver;
 
 	@FindBy(xpath = "//input[@id='cashondelivery']")
