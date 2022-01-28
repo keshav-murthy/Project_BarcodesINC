@@ -143,14 +143,19 @@ public class ViewReportPage extends BasePage {
 	public void verifyReportDetails(String expected) {
 
 		try {
-			wait.forElementToBeVisible(reportHeader1);
-			String actual = reportHeader1.getText();
+			wait.forElementToBeVisible(reportHeader2);
+			String actual = reportHeader2.getText();
 			Assert.assertTrue(expected.contains(actual));
 		} catch (TimeoutException e) {
 			wait.forElementToBeVisible(reportHeader1);
 			String actual = reportHeader1.getText();
 			Assert.assertTrue(expected.contains(actual));
+		} finally {
+			wait.forElementToBeVisible(breadcrumbTitle);
+			String actual = breadcrumbTitle.getText();
+			Assert.assertTrue(expected.contains(actual));
 		}
+
 		lOGGER.info("Verifying the report details page Heading");
 	}
 
@@ -241,23 +246,23 @@ public class ViewReportPage extends BasePage {
 			}
 
 			try {
-			wait.forPage(1500);
-			wait.forElementToBeVisible(currentPage);
-			Assert.assertEquals(currentPage.getText(), Integer.toString(i + 1));
+				wait.forPage(1500);
+				wait.forElementToBeVisible(currentPage);
+				Assert.assertEquals(currentPage.getText(), Integer.toString(i + 1));
 //			System.out.println("This is the Current page that is focused on :- " + currentPage.getText());
 
-			wait.forElementToBeVisible(dataTableInfo);
+				wait.forElementToBeVisible(dataTableInfo);
 //			System.out.println("Total contents in this page are :- " + dataTableInfo.getText());
-		}catch(TimeoutException e) {
-		}
+			} catch (TimeoutException e) {
 			}
+		}
 	}
 
-	public void dateRangeVerification(String startDate, String endDate,String url) {
+	public void dateRangeVerification(String startDate, String endDate, String url) {
 
 		wait.forPage();
-		driver.navigate().to(url+"store/rma_assetmanagement/report/totalserviced?sdate="
-				+ startDate + "&todate=" + endDate + "");
+		driver.navigate().to(
+				url + "store/rma_assetmanagement/report/totalserviced?sdate=" + startDate + "&todate=" + endDate + "");
 		wait.forPage();
 		click(lastUpdated);
 		wait.forPage();
@@ -363,8 +368,12 @@ public class ViewReportPage extends BasePage {
 		}
 		int count = 0;
 		wait.forPage();
-		wait.forElementToBeVisible(tableLengthDropDown);
-		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		try {
+			wait.forElementToBeVisible(tableLengthDropDown);
+			dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		} catch (TimeoutException e) {
+			lOGGER.info("No multiple pages are there for the respective user ");
+		}
 
 		wait.forPage();
 
@@ -409,8 +418,8 @@ public class ViewReportPage extends BasePage {
 		contractTypeData();
 		wait.forElementToBeVisible(contractTypeDropDown);
 		click(contractTypeDropDown);
-		wait.forElementToBeVisible(contractTypes.get(0));
-		click(contractTypes.get(0));
+//		wait.forElementToBeVisible(contractTypes.get(0));
+		js.clickElement(contractTypes.get(0));
 		contractTypeData();
 		lOGGER.info("Verifying the data to be sorted and filtered out in contract type column");
 	}

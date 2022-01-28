@@ -191,7 +191,6 @@ public class HomePage extends BasePage {
 			Assert.assertTrue(actual);
 			lOGGER.info("Verifying the presence of True View Button");
 		} catch (Exception e) {
-
 			wait.forElementToBeVisible(myAssets);
 			boolean actual = myAssets.isDisplayed();
 			Assert.assertTrue(actual);
