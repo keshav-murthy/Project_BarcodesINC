@@ -64,7 +64,7 @@ public class ExtentReporterNG implements IReporter {
 							+ File.separator + filename + ".jpg";
 					test.log(LogStatus.FAIL, test.addScreenCapture(screenshotPath));
 				}
-				extent.addSystemInfo("URL/ENV", "Prod");
+				extent.addSystemInfo("URL/ENV", "Stagging");
 				extent.endTest(test);
 			}
 		}
