@@ -1,6 +1,7 @@
 package TestCases;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import Pages.HomePage;
@@ -15,9 +16,16 @@ import commons.TestBase;
 
 public class SC_14_Sprint12_ServicePortalTrueViewTest extends TestBase {
 
+	@Parameters({"URL"})
 	@BeforeMethod
-	public void openPage() {
+	public void openPage(String URL) {
+		if(URL.equals("Prod"))
 		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+		else if(URL.equals("Sandbox"))
+			driver.get(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+		else if(URL.equals("Staging"))
+			driver.get(InitializePropertyFile.property.getProperty("Staging_URL"));
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)
@@ -45,7 +53,7 @@ public class SC_14_Sprint12_ServicePortalTrueViewTest extends TestBase {
 		}
 	}
 
-	@Test(priority = 2)
+//	@Test(priority = 2)
 	public void TC_02_TrueViewLinkValidation() {
 
 		try {

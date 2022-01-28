@@ -1,6 +1,7 @@
 package TestCases;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import Pages.CreateTicketPage;
@@ -21,10 +22,16 @@ public class SC_05_CreateTicketTest extends TestBase {
 	protected String ticketID;
 	protected String randomAsset;
 
+	@Parameters({"URL"})
 	@BeforeMethod
-	public void openPage() {
-
+	public void openPage(String URL) {
+		if(URL.equals("Prod"))
 		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+		else if(URL.equals("Sandbox"))
+			driver.get(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+		else if(URL.equals("Staging"))
+			driver.get(InitializePropertyFile.property.getProperty("Staging_URL"));
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)

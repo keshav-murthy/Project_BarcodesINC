@@ -1,6 +1,7 @@
 package TestCases;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import Pages.AddContractPage;
@@ -14,15 +15,22 @@ import commons.TestBase;
 
 public class SC_10_AddContractTest extends TestBase {
 
+	@Parameters({"URL"})
 	@BeforeMethod
-	public void openPage() {
+	public void openPage(String URL) {
+		if(URL.equals("Prod"))
 		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+		else if(URL.equals("Sandbox"))
+			driver.get(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+		else if(URL.equals("Staging"))
+			driver.get(InitializePropertyFile.property.getProperty("Staging_URL"));
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	@Test()
 	public void TC_01_addContract() {
 
-		try {
+//		try {
 			LoginPage loginpage = new LoginPage(driver);
 			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
 					InitializePropertyFile.property.getProperty("password"));
@@ -37,8 +45,8 @@ public class SC_10_AddContractTest extends TestBase {
 			mycontracts.clickOnAddContract();
 			AddContractPage addcontract = new AddContractPage(driver);
 			addcontract.addingContractProcedure(randomAsset);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 }

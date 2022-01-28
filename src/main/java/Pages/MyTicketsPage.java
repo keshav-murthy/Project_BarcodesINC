@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -366,8 +367,12 @@ public class MyTicketsPage extends BasePage {
 			reader.setCellData(sheetName, "USERNAME", k, username);
 
 		wait.forPage();
+		try {
 		wait.forElementToBeVisible(tableLengthDropDown);
 		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		}catch(TimeoutException e) {
+			lOGGER.info("there are no multiple pages for the listing of the tickets");
+		}
 
 		wait.forPage();
 

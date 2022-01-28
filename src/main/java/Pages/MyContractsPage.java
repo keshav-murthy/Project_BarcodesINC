@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -249,8 +250,12 @@ public class MyContractsPage extends BasePage {
 	public void validSearchVerification() {
 
 		String randomContractID;
+		try {
 		wait.forElementToBeVisible(tableLengthDropDown);
 		dropDownMethod(tableLengthDropDown, "VisibleText", "All");
+		}catch(TimeoutException e){
+			lOGGER.info("There are no multiple pages for the listing of contracts");
+		}
 
 		int randomNumberIndex = r.nextInt(contracts.size());
 		wait.forElementToBeVisible(contracts.get(randomNumberIndex));

@@ -123,15 +123,15 @@ public class OrdersPage extends BasePage {
 		Assert.assertTrue(columns.size() < 5);
 		lOGGER.info("Verifying the total columns are minimum in size");
 
-		int randomNumberIndex = random.nextInt(reorder.size());
-		wait.forElementToBeVisible(reorder.get(randomNumberIndex));
-		String color = getBackgroundColor(reorder.get(randomNumberIndex));
-		color = convertRGBToHex(color);
-		Assert.assertTrue(color.equalsIgnoreCase("#F78F1E"));
-		action.moveToElement(reorder.get(randomNumberIndex)).perform();
-		color = getBackgroundColor(reorder.get(randomNumberIndex));
-		color = convertRGBToHex(color);
-		Assert.assertTrue(color.equalsIgnoreCase("#dc7416"));
-		lOGGER.info("Verifying the background color of reorder button before and after mouse-hover");
+//		int randomNumberIndex = random.nextInt(reorder.size());
+//		wait.forElementToBeVisible(reorder.get(randomNumberIndex));
+//		String color = getBackgroundColor(reorder.get(randomNumberIndex));
+//		color = convertRGBToHex(color);
+//		Assert.assertTrue(color.equalsIgnoreCase("#F78F1E"));
+//		action.moveToElement(reorder.get(randomNumberIndex)).perform();
+//		color = getBackgroundColor(reorder.get(randomNumberIndex));
+//		color = convertRGBToHex(color);
+//		Assert.assertTrue(color.equalsIgnoreCase("#dc7416"));
+//		lOGGER.info("Verifying the background color of reorder button before and after mouse-hover");
 	}
 }

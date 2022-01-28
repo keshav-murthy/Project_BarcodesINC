@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -382,9 +383,12 @@ public class MyAssetsPage extends BasePage {
 	public String selectRandomAsset() {
 
 		String ignoredAssets = "12345 00001 Not Available";
+		try {
 		wait.forElementToBeVisible(tableLengthDropDown);
 		dropDownMethod(tableLengthDropDown, "VisibleText", "50");
-
+		}catch(TimeoutException e) {
+			lOGGER.info("There are no multiple pages for this listing page");
+		}
 		wait.forPage(2000);
 		int randomNumberIndex = r.nextInt(assets.size());
 		String randomAsset = assets.get(randomNumberIndex).getText();
@@ -452,23 +456,41 @@ public class MyAssetsPage extends BasePage {
 		}
 	}
 
+//	public void locationVerfication() {
+//
+//		wait.forElementToBeVisible(tableLengthDropDown);
+//		dropDownMethod(tableLengthDropDown, "VisibleText", "50");
+//		wait.forPage();
+//
+//		if (location.size() > 0) {
+//			int randomNumberIndex = r.nextInt(location.size());
+//			locationData = location.get(randomNumberIndex).getText();
+//			System.out.println("Selected location is ----------> " + locationData + " ----->");
+//			js.clickElement(location.get(randomNumberIndex));
+//			AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
+//			assetdetail.locationValidation(locationData);
+////			System.out.println("Selected location is ----------2" + locInPage);
+//
+//		} else
+//			System.out.println("There is no location mentioned for these list of Assets");
+//	}
+
 	public void locationVerfication() {
 
-		wait.forElementToBeVisible(tableLengthDropDown);
-		dropDownMethod(tableLengthDropDown, "VisibleText", "50");
+		wait.forElementToBeVisible(search);
+		sendKeys(search, "12577770");
+		lOGGER.info("Entering the serial number in search field");
 		wait.forPage();
 
-		if (location.size() > 0) {
-			int randomNumberIndex = r.nextInt(location.size());
-			locationData = location.get(randomNumberIndex).getText();
-			System.out.println("Selected location is ----------> " + locationData + " ----->");
-			js.clickElement(location.get(randomNumberIndex));
-			AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
-			assetdetail.locationValidation(locationData);
-//			System.out.println("Selected location is ----------2" + locInPage);
-
-		} else
-			System.out.println("There is no location mentioned for these list of Assets");
+		for (int i = 0; i < location.size(); i++) {
+			if (!(location.get(i).getText() == "-NA-")) {
+				locationData = location.get(i).getText();
+				js.clickElement(location.get(i));
+				AssetDetailsPage assetdetail = new AssetDetailsPage(driver);
+				assetdetail.locationValidation(locationData);
+			} else
+				System.out.println("There is no location mentioned for these list of Assets");
+		}
 	}
 
 	public void validSearchVerification() {

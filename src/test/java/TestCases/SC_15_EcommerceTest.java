@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import Pages.CartPage;
@@ -31,15 +32,23 @@ public class SC_15_EcommerceTest extends TestBase {
 	String mailURL = "https://email.ghostinspector.com/";
 	String protocol = "https://";
 
+	@Parameters({"URL"})
 	@BeforeMethod
-	public void openPage() {
-		driver.get(InitializePropertyFile.property.getProperty("BarcodesCannada_URL"));
+	public void openPage(String URL) {
+		if(URL.equals("Prod"))
+		driver.get(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+		else if(URL.equals("Sandbox"))
+			driver.get(InitializePropertyFile.property.getProperty("Sandbox_URL"));
+		else if(URL.equals("Staging"))
+			driver.get(InitializePropertyFile.property.getProperty("Staging_URL"));
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)
 	public void TC_01_ECO_I962_SearchValidation() {
 
 		try {
+			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesCannada_URL"));
 			LoginPage loginpage = new LoginPage(driver);
 			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
 					InitializePropertyFile.property.getProperty("password"));
@@ -60,7 +69,6 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_02_ECO_I969_LabelsPageValidation() {
 
 		try {
-			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 			LoginPage loginpage = new LoginPage(driver);
 			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
 					InitializePropertyFile.property.getProperty("password"));
@@ -124,6 +132,7 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_05_ECO_I881_requestOrderApprovalValidation() {
 
 		try {
+			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesCannada_URL"));
 			LoginPage loginpage = new LoginPage(driver);
 			loginpage.userLoginProcedure("dmech+veritiv@ocr.ca",
 					InitializePropertyFile.property.getProperty("password"));
@@ -138,16 +147,16 @@ public class SC_15_EcommerceTest extends TestBase {
 			cart.clickOnCheckout();
 			cart.verifyPaymentMethods();
 
-			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
-			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
-					InitializePropertyFile.property.getProperty("password"));
-			homepage.selectViewCart();
-			cart.removeAllItems();
-			HomePage.click(HomePage.barcodesLogo);
-			homepage.clickOnMyProducts();
-			myProducts.selectProduct();
-			cart.clickOnCheckout();
-			cart.verifyPaymentMethods();
+//			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
+//			loginpage.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
+//					InitializePropertyFile.property.getProperty("password"));
+//			homepage.selectViewCart();
+//			cart.removeAllItems();
+//			HomePage.click(HomePage.barcodesLogo);
+//			homepage.clickOnMyProducts();
+//			myProducts.selectProduct();
+//			cart.clickOnCheckout();
+//			cart.verifyPaymentMethods();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -157,7 +166,6 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_06_ECO_I960_MyOrdersUpdatesValidation() {
 
 		try {
-			driver.navigate().to(InitializePropertyFile.property.getProperty("Sandbox_URL"));
 			LoginPage login = new LoginPage(driver);
 			login.userLoginProcedure(InitializePropertyFile.property.getProperty("username"),
 					InitializePropertyFile.property.getProperty("password"));
@@ -184,7 +192,6 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_07_ECO_I935_AutomaticNewAccountCreationValidation() {
 
 		try {
-			driver.navigate().to(InitializePropertyFile.property.getProperty("Sandbox_URL"));
 			HomePage home = new HomePage(driver);
 			GhostInspectorPage ghost = new GhostInspectorPage(driver);
 			String randomEmail = ghost.generateRandomEmail();
@@ -270,7 +277,6 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_10_ECO_I974_accountDashboardMyOrdersValidation() {
 
 		try {
-			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesINC_URL"));
 //			RandomInputPage random = new RandomInputPage(driver);
 //			String randomUser = random.selectRandomUsername();
 			LoginPage loginpage = new LoginPage(driver);
@@ -296,6 +302,7 @@ public class SC_15_EcommerceTest extends TestBase {
 	public void TC_11_ECO_I876_topNavigationChangesValidation() {
 
 		try {
+			driver.navigate().to(InitializePropertyFile.property.getProperty("BarcodesCannada_URL"));
 			RandomInputPage random = new RandomInputPage(driver);
 			String url1 = random.fetchRandomURL(sheetName3);
 			random.verifyTopNavContainers(sheetName3, url1);

@@ -19,7 +19,7 @@ public class AddAssetPage extends BasePage {
 //	@FindBy(xpath = "//div[contains(text(),'DAT536070-K03 ( Model: 123 Easy ID)')]")
 //	WebElement selectProduct;
 
-	@FindBy(xpath = "//div[@class='selectize-dropdown-content']//div[5]")
+	@FindBy(xpath = "//div[@class='selectize-dropdown-content']//div[2]")
 	WebElement selectProduct;
 	
 	@FindBy(xpath = "//input[@id='serial_no']")

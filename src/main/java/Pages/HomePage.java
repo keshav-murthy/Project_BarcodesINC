@@ -163,8 +163,9 @@ public class HomePage extends BasePage {
 			}
 
 			wait.forElementToBeVisible(trueView);
-			action.moveToElement(trueView).perform();
-			js.clickElement(reportDashboard);
+//			action.moveToElement(trueView).perform();
+			js.clickElement(trueView);
+//			js.clickElement(reportDashboard);
 			lOGGER.info("clicked on report dashboard Button");
 
 		} catch (TimeoutException f) {
@@ -190,7 +191,6 @@ public class HomePage extends BasePage {
 			Assert.assertTrue(actual);
 			lOGGER.info("Verifying the presence of True View Button");
 		} catch (Exception e) {
-
 			wait.forElementToBeVisible(myAssets);
 			boolean actual = myAssets.isDisplayed();
 			Assert.assertTrue(actual);
